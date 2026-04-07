@@ -1,0 +1,29 @@
+# Fichiers de configuration Docker
+Dockerfile
+.dockerignore
+
+# Dépendances (Docker doit les installer lui-même)
+node_modules
+pnpm-debug.log*
+
+# Fichiers de build locaux (Docker doit compiler sa propre version)
+.next
+out
+build
+
+# Fichiers sources de l'Agent IA (inutiles en production)
+.agent
+
+# Environnement et Secrets (Extrêmement important)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.example
+*.pem
+
+# Git et divers
+.git
+.gitignore
+README.md
