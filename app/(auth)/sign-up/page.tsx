@@ -8,7 +8,7 @@ import styles from "../auth.module.css";
 
 export default function SignUpPage() {
     const router = useRouter();
-    const [name, setName] = useState("");
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -23,7 +23,8 @@ export default function SignUpPage() {
             const { error: signUpError } = await signUp.email({
                 email,
                 password,
-                name,
+                name: username,
+                username,
             });
 
             if (signUpError) {
@@ -57,17 +58,19 @@ export default function SignUpPage() {
                     )}
 
                     <div className={styles.fieldGroup}>
-                        <label htmlFor="name" className={styles.fieldLabel}>
-                            Name
+                        <label htmlFor="username" className={styles.fieldLabel}>
+                            Username
                         </label>
                         <input
-                            id="name"
+                            id="username"
                             type="text"
                             className={styles.fieldInput}
-                            placeholder="Your name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            placeholder="coolreader42"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             required
+                            minLength={3}
+                            maxLength={30}
                         />
                     </div>
 
