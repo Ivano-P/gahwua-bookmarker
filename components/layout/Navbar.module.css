@@ -1,0 +1,50 @@
+/* Mobile-first base styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background-color: var(--color-midnight-navy);
+    border-bottom: 1px solid var(--color-dark-navy);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.logo {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--color-off-white);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+    opacity: 0.85;
+}
+
+.logoAccent {
+    color: var(--color-coral-red);
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/************** Larger screens adjustments *****************************/
+@media (min-width: 768px) {
+    .navbar {
+        padding: 0.75rem 2.5rem;
+    }
+
+    .navLinks {
+        gap: 0.75rem;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+}

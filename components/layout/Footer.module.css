@@ -1,0 +1,37 @@
+/* Mobile-first base styles */
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    background-color: var(--color-midnight-navy);
+    border-top: 1px solid var(--color-dark-navy);
+    text-align: center;
+}
+
+.brand {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-off-white);
+    letter-spacing: 0.02em;
+}
+
+.brandAccent {
+    color: var(--color-coral-red);
+}
+
+.copyright {
+    font-size: 0.75rem;
+    color: var(--color-light-gray);
+    opacity: 0.6;
+}
+
+/************** Larger screens adjustments *****************************/
+@media (min-width: 768px) {
+    .footer {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1.25rem 2.5rem;
+    }
+}
