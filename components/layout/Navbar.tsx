@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-clients";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,14 @@ export function Navbar() {
     return (
         <nav className={styles.navbar}>
             <Link href="/" className={styles.logo}>
-                Gah<span className={styles.logoAccent}>wua</span>
+                <Image
+                    src="/images/GahwuaBookmarkerLogo.png"
+                    alt="Gahwua Bookmarker"
+                    width={160}
+                    height={40}
+                    className={styles.logoImage}
+                    priority
+                />
             </Link>
 
             <div className={styles.navLinks}>

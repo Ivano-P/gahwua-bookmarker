@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Gahwua — Track Your Comic Journey",
+    title: "Gahwua — Bookmarker",
     description:
-        "Bookmark, track, and manage your favorite comics and manga in one beautiful place. Never lose your reading progress again.",
+        "Bookmark, track, and manage your favorite comics. Never lose your reading progress again.",
 };
 
 export default function RootLayout({

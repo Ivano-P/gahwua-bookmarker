@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.75rem 1rem;
-    background-color: var(--color-midnight-navy);
+    background-color: var(--color-dark-slate-gray);
     border-bottom: 1px solid var(--color-dark-navy);
     position: sticky;
     top: 0;
@@ -12,11 +12,9 @@
 }
 
 .logo {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--color-off-white);
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    letter-spacing: 0.02em;
     transition: opacity 0.2s ease;
 }
 
@@ -24,14 +22,16 @@
     opacity: 0.85;
 }
 
-.logoAccent {
-    color: var(--color-coral-red);
+.logoImage {
+    height: 45px;
+    width: auto;
 }
 
 .navLinks {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    color: var(--color-off-white);
 }
 
 /************** Larger screens adjustments *****************************/
@@ -44,7 +44,7 @@
         gap: 0.75rem;
     }
 
-    .logo {
-        font-size: 1.5rem;
+    .logoImage {
+        height: 42px;
     }
 }

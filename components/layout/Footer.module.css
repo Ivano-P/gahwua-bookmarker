@@ -5,7 +5,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 1.5rem 1rem;
-    background-color: var(--color-midnight-navy);
+        background-color: var(--color-dark-slate-gray);
     border-top: 1px solid var(--color-dark-navy);
     text-align: center;
 }
@@ -25,6 +25,11 @@
     font-size: 0.75rem;
     color: var(--color-light-gray);
     opacity: 0.6;
+}
+
+.logoImage {
+    height: 35px;
+    width: auto;
 }
 
 /************** Larger screens adjustments *****************************/

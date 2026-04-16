@@ -88,7 +88,7 @@
     font-size: 0.9rem;
     font-weight: 700;
     color: var(--color-off-white);
-    background-color: var(--color-coral-red);
+    background-color: var(--primary);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -97,7 +97,7 @@
 }
 
 .submitButton:hover {
-    background-color: #d14a4b;
+    background-color: var(--primary-hover);
 }
 
 .submitButton:active {
