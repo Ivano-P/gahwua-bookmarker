@@ -15,7 +15,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, User, LogOut } from "lucide-react";
+import { Menu, X, User, LogOut, Coffee } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 export function Navbar() {
@@ -63,6 +63,9 @@ export function Navbar() {
                             <Button asChild variant="ghost" className={styles.pageLink}>
                                 <Link href="/user/bookmarker">Bookmarker</Link>
                             </Button>
+                            <Button asChild variant="ghost" className={styles.pageLink}>
+                                <Link href="/cafe"><Coffee size={16} /> Cafe</Link>
+                            </Button>
                         </div>
 
                         {/* Avatar Dropdown */}
@@ -100,6 +103,11 @@ export function Navbar() {
                     </>
                 ) : (
                     <>
+                        <div className={styles.centerLink}>
+                            <Button asChild variant="ghost" className={styles.pageLink}>
+                                <Link href="/cafe"><Coffee size={16} /> Cafe</Link>
+                            </Button>
+                        </div>
                         <Button asChild className={styles.authButton}>
                             <Link href="/sign-in">Sign In</Link>
                         </Button>
@@ -128,6 +136,9 @@ export function Navbar() {
                                 <Link href="/user/bookmarker">Bookmarker</Link>
                             </Button>
                             <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
+                                <Link href="/cafe">Cafe</Link>
+                            </Button>
+                            <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
                                 <Link href="/user/account">My Account</Link>
                             </Button>
                             <Button className={styles.authButton} onClick={handleSignOut}>
@@ -136,6 +147,9 @@ export function Navbar() {
                         </>
                     ) : (
                         <>
+                            <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
+                                <Link href="/cafe">Cafe</Link>
+                            </Button>
                             <Button asChild className={styles.authButton} onClick={closeMenu}>
                                 <Link href="/sign-in">Sign In</Link>
                             </Button>

@@ -1,0 +1,243 @@
+/* Mobile-first base styles */
+.cafeHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3.5rem 1.5rem 3rem;
+  background: linear-gradient(
+    160deg,
+    var(--color-midnight-navy) 0%,
+    var(--color-dark-navy) 60%,
+    #1a3040 100%
+  );
+}
+
+.cafeTag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-golden-yellow);
+  background-color: rgba(243, 210, 116, 0.1);
+  border: 1px solid rgba(243, 210, 116, 0.25);
+  padding: 0.3rem 0.9rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+
+.cafeTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-off-white);
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
+}
+
+.cafeTitleAccent {
+  color: var(--color-bright-cyan);
+}
+
+.cafeSubtitle {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-light-gray);
+  opacity: 0.8;
+  margin: 0;
+  max-width: 480px;
+}
+
+/* Feed Section */
+.cafeFeed {
+  padding: 2.5rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.feedTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-midnight-navy);
+  margin: 0 0 1.25rem;
+}
+
+.comicGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.comicCard {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #ffffff;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comicCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(17, 24, 32, 0.1);
+}
+
+.comicCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.comicCardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-midnight-navy);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.18rem 0.55rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.statusOngoing {
+  background-color: rgba(33, 201, 193, 0.12);
+  color: #189c96;
+}
+
+.statusCompleted {
+  background-color: rgba(243, 210, 116, 0.2);
+  color: #b8960f;
+}
+
+.statusHiatus {
+  background-color: rgba(229, 91, 92, 0.1);
+  color: var(--color-coral-red);
+}
+
+.statusCancelled {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: #666;
+}
+
+.comicCardDescription {
+  font-size: 0.85rem;
+  color: var(--color-dark-navy);
+  opacity: 0.7;
+  line-height: 1.55;
+  margin: 0 0 0.75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.comicCardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.genreTag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background-color: rgba(17, 24, 32, 0.06);
+  color: var(--color-dark-navy);
+}
+
+.metaStat {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--color-dark-navy);
+  opacity: 0.6;
+  margin-left: auto;
+}
+
+.metaStatIcon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Empty Cafe */
+.emptyFeed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  gap: 0.75rem;
+}
+
+.emptyIcon {
+  width: 56px;
+  height: 56px;
+  color: var(--color-light-gray);
+}
+
+.emptyText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-midnight-navy);
+  margin: 0;
+}
+
+.emptySubtext {
+  font-size: 0.85rem;
+  color: var(--color-dark-navy);
+  opacity: 0.6;
+  margin: 0;
+}
+
+/************** Larger screens adjustments *****************************/
+@media (min-width: 768px) {
+  .cafeHero {
+    padding: 4.5rem 2rem 3.5rem;
+  }
+
+  .cafeTitle {
+    font-size: 2.75rem;
+  }
+
+  .cafeSubtitle {
+    font-size: 1.05rem;
+  }
+
+  .cafeFeed {
+    padding: 3rem 2rem;
+  }
+
+  .feedTitle {
+    font-size: 1.4rem;
+  }
+
+  .comicGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .comicGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

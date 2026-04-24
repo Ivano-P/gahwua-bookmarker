@@ -1,0 +1,233 @@
+/* Mobile-first base styles */
+.dashboardContainer {
+  padding: 2rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 60vh;
+}
+
+.dashboardHeader {
+  margin-bottom: 2rem;
+}
+
+.dashboardTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-midnight-navy);
+  margin: 0 0 0.25rem;
+}
+
+.dashboardSubtitle {
+  font-size: 0.95rem;
+  color: var(--color-dark-navy);
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* Bookmark Grid */
+.bookmarkGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.bookmarkCard {
+  background: #ffffff;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 12px;
+  padding: 1.25rem 1.25rem 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bookmarkCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(17, 24, 32, 0.08);
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.comicTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-midnight-navy);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.statusOngoing {
+  background-color: rgba(33, 201, 193, 0.12);
+  color: #189c96;
+}
+
+.statusCompleted {
+  background-color: rgba(243, 210, 116, 0.2);
+  color: #b8960f;
+}
+
+.statusHiatus {
+  background-color: rgba(229, 91, 92, 0.1);
+  color: var(--color-coral-red);
+}
+
+.statusCancelled {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: #666;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--color-dark-navy);
+  opacity: 0.8;
+}
+
+.metaIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+}
+
+.chapterBadge {
+  background-color: var(--color-midnight-navy);
+  color: var(--color-off-white);
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-bright-cyan);
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(33, 201, 193, 0.3);
+  background: transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.viewBtn:hover {
+  background: rgba(33, 201, 193, 0.08);
+}
+
+.lastUpdated {
+  font-size: 0.75rem;
+  color: var(--color-dark-navy);
+  opacity: 0.5;
+  margin-top: auto;
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  gap: 1rem;
+}
+
+.emptyIcon {
+  width: 64px;
+  height: 64px;
+  color: var(--color-light-gray);
+}
+
+.emptyTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-midnight-navy);
+  margin: 0;
+}
+
+.emptyDescription {
+  font-size: 0.9rem;
+  color: var(--color-dark-navy);
+  opacity: 0.7;
+  margin: 0;
+  max-width: 400px;
+}
+
+.emptyCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  background: var(--color-bright-cyan);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.emptyCta:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/************** Larger screens adjustments *****************************/
+@media (min-width: 768px) {
+  .dashboardContainer {
+    padding: 3rem 2rem;
+  }
+
+  .dashboardTitle {
+    font-size: 2rem;
+  }
+
+  .bookmarkGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bookmarkGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

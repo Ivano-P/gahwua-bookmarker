@@ -1,0 +1,339 @@
+/* Mobile-first base styles */
+.detailContainer {
+  min-height: 60vh;
+}
+
+/* Hero / Header */
+.detailHero {
+  padding: 2.5rem 1.5rem 2rem;
+  background: linear-gradient(
+    160deg,
+    var(--color-midnight-navy) 0%,
+    var(--color-dark-navy) 70%,
+    #1a3040 100%
+  );
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-light-gray);
+  opacity: 0.7;
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+  transition: opacity 0.15s ease;
+}
+
+.backLink:hover {
+  opacity: 1;
+}
+
+.backIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.heroContent {
+  max-width: 800px;
+}
+
+.comicTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-off-white);
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+.heroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.statusBadge {
+  display: inline-flex;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+}
+
+.statusOngoing {
+  background-color: rgba(33, 201, 193, 0.2);
+  color: #5ee8e1;
+}
+
+.statusCompleted {
+  background-color: rgba(243, 210, 116, 0.2);
+  color: var(--color-golden-yellow);
+}
+
+.statusHiatus {
+  background-color: rgba(229, 91, 92, 0.15);
+  color: #f08889;
+}
+
+.statusCancelled {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #999;
+}
+
+.genreTag {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-light-gray);
+}
+
+.comicDescription {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--color-light-gray);
+  opacity: 0.8;
+  margin: 0;
+  max-width: 680px;
+}
+
+.heroStats {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.statValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-off-white);
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-light-gray);
+  opacity: 0.6;
+}
+
+/* Content Sections */
+.detailBody {
+  padding: 2rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-midnight-navy);
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-bright-cyan);
+}
+
+/* Sources List */
+.sourcesSection {
+  margin-bottom: 2.5rem;
+}
+
+.sourcesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sourceChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  background: rgba(33, 201, 193, 0.08);
+  color: var(--color-dark-navy);
+  border: 1px solid rgba(33, 201, 193, 0.15);
+}
+
+.sourceIcon {
+  width: 14px;
+  height: 14px;
+  color: var(--color-bright-cyan);
+}
+
+/* Chapter Links */
+.chaptersSection {
+  margin-bottom: 2.5rem;
+}
+
+.chapterList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chapterItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 10px;
+  transition: border-color 0.15s ease;
+}
+
+.chapterItem:hover {
+  border-color: var(--color-bright-cyan);
+}
+
+.chapterInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.chapterNum {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-midnight-navy);
+}
+
+.chapterSource {
+  font-size: 0.7rem;
+  color: var(--color-dark-navy);
+  opacity: 0.55;
+}
+
+.chapterLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-bright-cyan);
+  text-decoration: none;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid rgba(33, 201, 193, 0.25);
+  transition: background 0.15s ease;
+}
+
+.chapterLink:hover {
+  background: rgba(33, 201, 193, 0.06);
+}
+
+.linkIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.noChapters {
+  font-size: 0.85rem;
+  color: var(--color-dark-navy);
+  opacity: 0.5;
+  padding: 1rem 0;
+}
+
+/* Actions Bar */
+.actionsSection {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(33, 201, 193, 0.04);
+  border: 1px solid rgba(33, 201, 193, 0.12);
+  border-radius: 12px;
+}
+
+.actionsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Not Found */
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 50vh;
+  padding: 4rem 1.5rem;
+  gap: 1rem;
+}
+
+.notFoundTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-midnight-navy);
+  margin: 0;
+}
+
+.notFoundText {
+  font-size: 0.9rem;
+  color: var(--color-dark-navy);
+  opacity: 0.6;
+  margin: 0;
+}
+
+.notFoundLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--color-bright-cyan);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.notFoundLink:hover {
+  opacity: 0.9;
+}
+
+/************** Larger screens adjustments *****************************/
+@media (min-width: 768px) {
+  .detailHero {
+    padding: 3.5rem 2rem 2.5rem;
+  }
+
+  .comicTitle {
+    font-size: 2.25rem;
+  }
+
+  .detailBody {
+    padding: 2.5rem 2rem;
+  }
+
+  .actionsGrid {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}

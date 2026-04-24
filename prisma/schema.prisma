@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,18 +6,23 @@ datasource db {
   provider = "postgresql"
 }
 
+// ==========================================
+// BETTER AUTH MODELS
+// ==========================================
+
 model User {
-  id              String    @id
+  id              String     @id
   name            String
   email           String
-  emailVerified   Boolean   @default(false)
+  emailVerified   Boolean    @default(false)
   image           String?
-  username        String?   @unique
+  username        String?    @unique
   displayUsername String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
   sessions        Session[]
   accounts        Account[]
+  bookmarks       Bookmark[]
 
   @@unique([email])
   @@map("user")
@@ -74,4 +74,101 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+// ==========================================
+// COMIC BOOKMARKING MODELS
+// ==========================================
+
+enum PublicationStatus {
+  ONGOING
+  COMPLETED
+  HIATUS
+  CANCELLED
+}
+
+enum Genre {
+  ACTION
+  ADVENTURE
+  COMEDY
+  DRAMA
+  FANTASY
+  ISEKAI
+  MANGA
+  MANHUA
+  MANHWA
+  MARTIAL_ARTS
+  ROMANCE
+  SHOUNEN
+  WEBTOON
+}
+
+model Comic {
+  id          String            @id @default(cuid())
+  title       String            @unique
+  altTitles   String[]
+  description String?
+  imageUrl    String?
+  status      PublicationStatus @default(ONGOING)
+  genres      Genre[]
+
+  averageRating Float @default(0)
+  totalRatings  Int   @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookmarks    Bookmark[]
+  sources      ComicSource[]
+  chapterLinks ChapterLink[]
+
+  @@map("comic")
+}
+
+model ComicSource {
+  id       String  @id @default(cuid())
+  comicId  String
+  url      String
+  siteName String?
+
+  comic        Comic         @relation(fields: [comicId], references: [id], onDelete: Cascade)
+  chapterLinks ChapterLink[]
+
+  @@unique([comicId, url])
+  @@map("comic_source")
+}
+
+model ChapterLink {
+  id       String  @id @default(cuid())
+  comicId  String
+  sourceId String?
+
+  chapterNum String
+  url        String
+
+  createdAt DateTime @default(now())
+
+  comic  Comic        @relation(fields: [comicId], references: [id], onDelete: Cascade)
+  source ComicSource? @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+
+  @@unique([comicId, chapterNum, url])
+  @@map("chapter_link")
+}
+
+model Bookmark {
+  id      String @id @default(cuid())
+  userId  String
+  comicId String
+
+  currentChapter String
+  userRating     Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comic Comic @relation(fields: [comicId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, comicId])
+  @@map("bookmark")
 }

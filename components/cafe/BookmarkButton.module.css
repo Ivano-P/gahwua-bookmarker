@@ -1,0 +1,66 @@
+/* Mobile-first base styles */
+.bookmarkBtnContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.bookmarkBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.bookmarkBtn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.bookmarkBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.addBtn {
+  background: var(--color-bright-cyan);
+  color: white;
+}
+
+.updateBtn {
+  background: var(--color-midnight-navy);
+  color: var(--color-off-white);
+}
+
+.bookmarkedInfo {
+  font-size: 0.75rem;
+  color: var(--color-dark-navy);
+  opacity: 0.6;
+}
+
+.successMsg {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #189c96;
+  margin: 0;
+}
+
+.errorMsg {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-coral-red);
+  margin: 0;
+}
