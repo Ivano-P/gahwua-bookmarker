@@ -91,11 +91,6 @@ export default function SignInPage() {
                     </button>
                 </form>
 
-                <div className={styles.divider}>
-                    <span className={styles.dividerLine} />
-                    <span className={styles.dividerText}>or</span>
-                    <span className={styles.dividerLine} />
-                </div>
 
                 <p className={styles.authFooter}>
                     Don&apos;t have an account?{" "}
