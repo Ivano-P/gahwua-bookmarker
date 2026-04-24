@@ -6,7 +6,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-clients";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Menu, X, User, LogOut } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 export function Navbar() {
@@ -21,6 +30,16 @@ export function Navbar() {
         closeMenu();
         router.push("/");
         router.refresh();
+    };
+
+    const getInitials = (name?: string | null, email?: string | null) => {
+        const source = name ?? email ?? "?";
+        return source
+            .split(" ")
+            .map((w) => w[0])
+            .join("")
+            .toUpperCase()
+            .slice(0, 2);
     };
 
     return (
@@ -45,9 +64,39 @@ export function Navbar() {
                                 <Link href="/user/bookmarker">Bookmarker</Link>
                             </Button>
                         </div>
-                        <Button className={styles.authButton} onClick={handleSignOut}>
-                            Sign Out
-                        </Button>
+
+                        {/* Avatar Dropdown */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger className={styles.avatarTrigger}>
+                                <Avatar size="default">
+                                    <AvatarFallback className={styles.avatarFallback}>
+                                        {getInitials(session.user.name, session.user.email)}
+                                    </AvatarFallback>
+                                </Avatar>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className={styles.dropdownContent}>
+                                <DropdownMenuLabel className={styles.dropdownLabel}>
+                                    <span className={styles.dropdownName}>{session.user.name}</span>
+                                    <span className={styles.dropdownEmail}>{session.user.email}</span>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    className={styles.dropdownItem}
+                                    onClick={() => router.push("/user/account")}
+                                >
+                                    <User className={styles.dropdownIcon} />
+                                    My Account
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    className={styles.dropdownItem}
+                                    onClick={handleSignOut}
+                                >
+                                    <LogOut className={styles.dropdownIcon} />
+                                    Sign Out
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </>
                 ) : (
                     <>
@@ -77,6 +126,9 @@ export function Navbar() {
                         <>
                             <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
                                 <Link href="/user/bookmarker">Bookmarker</Link>
+                            </Button>
+                            <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
+                                <Link href="/user/account">My Account</Link>
                             </Button>
                             <Button className={styles.authButton} onClick={handleSignOut}>
                                 Sign Out

@@ -81,6 +81,69 @@
     font-weight: 500;
 }
 
+/* Avatar Trigger */
+.avatarTrigger {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+.avatarTrigger:hover,
+.avatarTrigger:focus-visible {
+    border-color: var(--color-bright-cyan);
+    box-shadow: 0 0 0 2px rgba(33, 201, 193, 0.25);
+}
+
+.avatarFallback {
+    background-color: var(--color-bright-cyan) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+}
+
+/* Dropdown Menu */
+.dropdownContent {
+    min-width: 200px !important;
+}
+
+.dropdownLabel {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.1rem !important;
+    padding: 0.5rem 0.75rem !important;
+}
+
+.dropdownName {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-midnight-navy);
+}
+
+.dropdownEmail {
+    font-size: 0.75rem;
+    color: var(--color-dark-navy);
+    opacity: 0.6;
+}
+
+.dropdownItem {
+    cursor: pointer !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85rem !important;
+    gap: 0.5rem !important;
+}
+
+.dropdownIcon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
 
 /************** Larger screens adjustments *****************************/
 @media (min-width: 768px) {
