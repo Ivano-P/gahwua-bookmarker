@@ -11,12 +11,18 @@ export default function SignUpPage() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+
+        if (password !== confirmPassword) {
+            setError("Passwords do not match.");
+            return;
+        }
         setLoading(true);
 
         try {
@@ -100,6 +106,22 @@ export default function SignUpPage() {
                             placeholder="At least 8 characters"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            required
+                            minLength={8}
+                        />
+                    </div>
+
+                    <div className={styles.fieldGroup}>
+                        <label htmlFor="confirmPassword" className={styles.fieldLabel}>
+                            Confirm Password
+                        </label>
+                        <input
+                            id="confirmPassword"
+                            type="password"
+                            className={styles.fieldInput}
+                            placeholder="Re-enter your password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                             required
                             minLength={8}
                         />
