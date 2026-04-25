@@ -9,12 +9,23 @@ interface ComicData {
   id: string;
   title: string;
   description: string | null;
+  imageUrl: string | null;
   status: string;
   genres: string[];
   _count: {
     chapterLinks: number;
     bookmarks: number;
   };
+}
+
+function getInitials(title: string): string {
+  return title
+    .split(" ")
+    .filter((w) => w.length > 2 || title.split(" ").length <= 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 }
 
 interface CafeComicListProps {
@@ -89,6 +100,26 @@ export function CafeComicList({ comics }: CafeComicListProps) {
               href={`/cafe/${comic.id}`}
               className={styles.comicCard}
             >
+              <div className={styles.comicCardInner}>
+                {/* Image */}
+                <div className={styles.comicCardImage}>
+                  {comic.imageUrl ? (
+                    <img
+                      src={comic.imageUrl}
+                      alt={comic.title}
+                      className={styles.comicCardImg}
+                    />
+                  ) : (
+                    <div className={styles.comicCardPlaceholder}>
+                      <span className={styles.comicCardInitials}>
+                        {getInitials(comic.title)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Info */}
+                <div className={styles.comicCardBody}>
               <div className={styles.comicCardTop}>
                 <h3 className={styles.comicCardTitle}>{comic.title}</h3>
                 <span
@@ -118,6 +149,8 @@ export function CafeComicList({ comics }: CafeComicListProps) {
                   <BookOpen className={styles.metaStatIcon} />
                   {comic._count.bookmarks}
                 </span>
+              </div>
+                </div>
               </div>
             </Link>
           ))}

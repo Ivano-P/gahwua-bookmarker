@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-clients";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -15,12 +15,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, User, LogOut, Coffee } from "lucide-react";
+import { Menu, X, User, LogOut, Coffee, Bookmark } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 export function Navbar() {
     const { data: session, isPending } = useSession();
     const router = useRouter();
+    const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const closeMenu = () => setIsMobileMenuOpen(false);
@@ -60,10 +61,10 @@ export function Navbar() {
                 {isPending ? null : session ? (
                     <>
                         <div className={styles.centerLink}>
-                            <Button asChild variant="ghost" className={styles.pageLink}>
-                                <Link href="/user/bookmarker">Bookmarker</Link>
+                            <Button asChild variant="ghost" className={`${styles.pageLink} ${pathname.startsWith('/user/bookmarker') ? styles.activePageLink : ''}`}>
+                                <Link href="/user/bookmarker"><Bookmark size={16} /> Bookmarker</Link>
                             </Button>
-                            <Button asChild variant="ghost" className={styles.pageLink}>
+                            <Button asChild variant="ghost" className={`${styles.pageLink} ${pathname.startsWith('/cafe') ? styles.activePageLink : ''}`}>
                                 <Link href="/cafe"><Coffee size={16} /> Cafe</Link>
                             </Button>
                         </div>
@@ -104,7 +105,7 @@ export function Navbar() {
                 ) : (
                     <>
                         <div className={styles.centerLink}>
-                            <Button asChild variant="ghost" className={styles.pageLink}>
+                            <Button asChild variant="ghost" className={`${styles.pageLink} ${pathname.startsWith('/cafe') ? styles.activePageLink : ''}`}>
                                 <Link href="/cafe"><Coffee size={16} /> Cafe</Link>
                             </Button>
                         </div>
@@ -132,10 +133,10 @@ export function Navbar() {
                 <div className={styles.mobileNav}>
                     {isPending ? null : session ? (
                         <>
-                            <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
-                                <Link href="/user/bookmarker">Bookmarker</Link>
+                            <Button asChild variant="ghost" className={`${styles.pageLink} ${pathname.startsWith('/user/bookmarker') ? styles.activePageLink : ''}`} onClick={closeMenu}>
+                                <Link href="/user/bookmarker"><Bookmark size={16} /> Bookmarker</Link>
                             </Button>
-                            <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
+                            <Button asChild variant="ghost" className={`${styles.pageLink} ${pathname.startsWith('/cafe') ? styles.activePageLink : ''}`} onClick={closeMenu}>
                                 <Link href="/cafe">Cafe</Link>
                             </Button>
                             <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
@@ -147,7 +148,7 @@ export function Navbar() {
                         </>
                     ) : (
                         <>
-                            <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
+                            <Button asChild variant="ghost" className={`${styles.pageLink} ${pathname.startsWith('/cafe') ? styles.activePageLink : ''}`} onClick={closeMenu}>
                                 <Link href="/cafe">Cafe</Link>
                             </Button>
                             <Button asChild className={styles.authButton} onClick={closeMenu}>

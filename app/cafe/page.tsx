@@ -20,6 +20,7 @@ export default async function CafePage() {
     id: c.id,
     title: c.title,
     description: c.description,
+    imageUrl: c.imageUrl,
     status: c.status,
     genres: c.genres,
     _count: c._count,

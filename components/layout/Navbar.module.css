@@ -81,6 +81,12 @@
     font-weight: 500;
 }
 
+.activePageLink {
+    text-decoration: underline !important;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+}
+
 /* Avatar Trigger */
 .avatarTrigger {
     display: flex;

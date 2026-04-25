@@ -155,9 +155,12 @@
   color: var(--color-bright-cyan);
 }
 
-/* Sources List */
 .sourcesSection {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  padding: 1.25rem;
+  border: 1px solid #E55B5C;
+  border-radius: 16px;
+  background: #ffffff;
 }
 
 .sourcesList {
@@ -185,9 +188,12 @@
   color: var(--color-bright-cyan);
 }
 
-/* Chapter Links */
 .chaptersSection {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  padding: 1.25rem;
+  border: 1px solid #E55B5C;
+  border-radius: 16px;
+  background: #ffffff;
 }
 
 .chapterList {
@@ -259,13 +265,12 @@
   padding: 1rem 0;
 }
 
-/* Actions Bar */
 .actionsSection {
   margin-bottom: 2rem;
-  padding: 1.5rem;
+  padding: 1.25rem;
   background: rgba(33, 201, 193, 0.04);
-  border: 1px solid rgba(33, 201, 193, 0.12);
-  border-radius: 12px;
+  border: 1px solid #E55B5C;
+  border-radius: 16px;
 }
 
 .actionsGrid {
