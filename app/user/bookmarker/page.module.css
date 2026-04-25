@@ -1,75 +1,208 @@
 /* Mobile-first base styles */
 .dashboardContainer {
-  padding: 2rem 1rem;
-  max-width: 1100px;
+  padding: 1.5rem 1rem;
+  max-width: 900px;
   margin: 0 auto;
   min-height: 60vh;
 }
 
-.dashboardHeader {
-  margin-bottom: 2rem;
-}
-
-.dashboardTitle {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: var(--color-midnight-navy);
-  margin: 0 0 0.25rem;
-}
-
-.dashboardSubtitle {
-  font-size: 0.95rem;
-  color: var(--color-dark-navy);
-  opacity: 0.7;
-  margin: 0;
-}
-
-/* Bookmark Grid */
-.bookmarkGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-.bookmarkCard {
-  background: #ffffff;
-  border: 1px solid var(--color-light-gray);
-  border-radius: 12px;
-  padding: 1.25rem 1.25rem 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* ── Toolbar ─────────────────────────────────── */
+.toolbar {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
-.bookmarkCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(17, 24, 32, 0.08);
-}
-
-.cardTop {
+.toolbarLeft {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.dashboardTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-midnight-navy);
+  margin: 0;
+}
+
+.bookmarkCount {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-dark-navy);
+  opacity: 0.5;
+}
+
+.toolbarRight {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.searchBox {
+  position: relative;
+  flex: 1;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  color: var(--color-dark-navy);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem 0.65rem 0.5rem 2rem;
+  font-size: 0.82rem;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--color-midnight-navy);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.searchInput:focus {
+  border-color: var(--color-bright-cyan);
+}
+
+.searchInput::placeholder {
+  color: var(--color-dark-navy);
+  opacity: 0.4;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--color-bright-cyan);
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.addBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.addBtnText {
+  display: none;
+}
+
+/* ── Bookmark List ───────────────────────────── */
+.bookmarkList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.bookmarkRow {
+  display: flex;
+  align-items: center;
   gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--color-light-gray);
+  transition: background 0.12s ease;
+}
+
+.bookmarkRow:last-child {
+  border-bottom: none;
+}
+
+.bookmarkRow:hover {
+  background: rgba(33, 201, 193, 0.03);
+}
+
+/* ── Comic Image / Placeholder ────────────── */
+.comicImage {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.comicImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comicPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+}
+
+.placeholderInitials {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-midnight-navy);
+  opacity: 0.55;
+  letter-spacing: 0.02em;
+}
+
+/* ── Row Info ──────────────────────────────── */
+.rowInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.rowTitleLine {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
 }
 
 .comicTitle {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--color-midnight-navy);
-  margin: 0;
-  line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.12s ease;
+}
+
+.comicTitle:hover {
+  color: var(--color-bright-cyan);
 }
 
 .statusBadge {
   display: inline-flex;
-  align-items: center;
-  font-size: 0.65rem;
+  font-size: 0.55rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.2rem 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 0.12rem 0.4rem;
   border-radius: 100px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -95,70 +228,148 @@
   color: #666;
 }
 
-.cardMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.metaItem {
+.rowMeta {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.85rem;
-  color: var(--color-dark-navy);
-  opacity: 0.8;
-}
-
-.metaIcon {
-  width: 16px;
-  height: 16px;
-  opacity: 0.6;
+  gap: 0.5rem;
 }
 
 .chapterBadge {
-  background-color: var(--color-midnight-navy);
-  color: var(--color-off-white);
-  padding: 0.2rem 0.65rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 600;
+  color: var(--color-dark-navy);
+  opacity: 0.6;
 }
 
-.cardActions {
+/* ── Row Actions ──────────────────────────── */
+.rowActions {
   display: flex;
-  gap: 0.5rem;
-  margin-top: 0.25rem;
-}
-
-.viewBtn {
-  display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.readBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-bright-cyan);
   text-decoration: none;
-  padding: 0.35rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid rgba(33, 201, 193, 0.3);
+  border: 1px solid rgba(33, 201, 193, 0.25);
+  border-radius: 6px;
   background: transparent;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background 0.12s ease;
 }
 
-.viewBtn:hover {
-  background: rgba(33, 201, 193, 0.08);
+.readBtn:hover {
+  background: rgba(33, 201, 193, 0.06);
 }
 
-.lastUpdated {
+.readBtnText {
+  display: none;
+}
+
+.updateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.55rem;
   font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-dark-navy);
+  opacity: 0.55;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.12s ease, border-color 0.12s ease;
+}
+
+.updateBtn:hover {
+  opacity: 0.85;
+  border-color: var(--color-dark-navy);
+}
+
+.updateBtnText {
+  display: none;
+}
+
+/* ── Edit Row ─────────────────────────────── */
+.editRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.editInput {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.78rem;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--color-midnight-navy);
+  outline: none;
+  width: 65px;
+  transition: border-color 0.12s ease;
+}
+
+.editInput:focus {
+  border-color: var(--color-bright-cyan);
+}
+
+.editUrlInput {
+  width: 160px;
+  flex: 1;
+  min-width: 120px;
+}
+
+.editSaveBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: var(--color-bright-cyan);
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.12s ease;
+}
+
+.editSaveBtn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.editSaveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editCancelBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 6px;
+  background: transparent;
   color: var(--color-dark-navy);
   opacity: 0.5;
-  margin-top: auto;
+  cursor: pointer;
+  transition: opacity 0.12s ease;
 }
 
-/* Empty State */
+.editCancelBtn:hover {
+  opacity: 0.8;
+}
+
+/* ── Empty State ──────────────────────────── */
 .emptyState {
   display: flex;
   flex-direction: column;
@@ -166,28 +377,28 @@
   justify-content: center;
   text-align: center;
   padding: 4rem 1.5rem;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .emptyIcon {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   color: var(--color-light-gray);
 }
 
 .emptyTitle {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--color-midnight-navy);
   margin: 0;
 }
 
 .emptyDescription {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--color-dark-navy);
   opacity: 0.7;
   margin: 0;
-  max-width: 400px;
+  max-width: 360px;
 }
 
 .emptyCta {
@@ -195,11 +406,11 @@
   align-items: center;
   gap: 0.4rem;
   margin-top: 0.5rem;
-  padding: 0.6rem 1.25rem;
+  padding: 0.55rem 1.1rem;
   border-radius: 8px;
   background: var(--color-bright-cyan);
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
   transition: opacity 0.15s ease, transform 0.15s ease;
@@ -213,21 +424,46 @@
 /************** Larger screens adjustments *****************************/
 @media (min-width: 768px) {
   .dashboardContainer {
-    padding: 3rem 2rem;
+    padding: 2rem 2rem;
+  }
+
+  .toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .dashboardTitle {
-    font-size: 2rem;
+    font-size: 1.65rem;
   }
 
-  .bookmarkGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+  .addBtnText {
+    display: inline;
   }
-}
 
-@media (min-width: 1024px) {
-  .bookmarkGrid {
-    grid-template-columns: repeat(3, 1fr);
+  .readBtnText {
+    display: inline;
+  }
+
+  .updateBtnText {
+    display: inline;
+  }
+
+  .comicImage {
+    width: 48px;
+    height: 48px;
+  }
+
+  .bookmarkRow {
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
+
+  .comicTitle {
+    font-size: 0.95rem;
+  }
+
+  .editUrlInput {
+    width: 220px;
   }
 }

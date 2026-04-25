@@ -86,6 +86,9 @@ export class ComicService {
           comic: {
             include: {
               sources: true,
+              chapterLinks: {
+                orderBy: { chapterNum: "asc" },
+              },
               _count: { select: { chapterLinks: true } },
             },
           },
