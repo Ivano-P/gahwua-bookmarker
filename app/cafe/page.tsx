@@ -1,22 +1,6 @@
-import Link from "next/link";
 import { ComicService } from "@/app/services/comic.service";
-import { BookOpen, Link2, Coffee } from "lucide-react";
+import { CafeComicList } from "@/components/cafe/CafeComicList";
 import styles from "./page.module.css";
-
-function getStatusClass(status: string) {
-  switch (status) {
-    case "ONGOING":
-      return styles.statusOngoing;
-    case "COMPLETED":
-      return styles.statusCompleted;
-    case "HIATUS":
-      return styles.statusHiatus;
-    case "CANCELLED":
-      return styles.statusCancelled;
-    default:
-      return "";
-  }
-}
 
 export default async function CafePage() {
   const result = await ComicService.getAllComics();
@@ -31,6 +15,16 @@ export default async function CafePage() {
 
   const comics = result.data;
 
+  // Serialize for client component
+  const serializedComics = comics.map((c) => ({
+    id: c.id,
+    title: c.title,
+    description: c.description,
+    status: c.status,
+    genres: c.genres,
+    _count: c._count,
+  }));
+
   return (
     <>
       <section className={styles.cafeHero}>
@@ -44,62 +38,7 @@ export default async function CafePage() {
         </p>
       </section>
 
-      <section className={styles.cafeFeed}>
-        <h2 className={styles.feedTitle}>All Comics</h2>
-
-        {comics.length === 0 ? (
-          <div className={styles.emptyFeed}>
-            <Coffee className={styles.emptyIcon} />
-            <p className={styles.emptyText}>
-              No comics in the Cafe yet.
-            </p>
-            <p className={styles.emptySubtext}>
-              Check back soon — comics are being added by the community.
-            </p>
-          </div>
-        ) : (
-          <div className={styles.comicGrid}>
-            {comics.map((comic) => (
-              <Link
-                key={comic.id}
-                href={`/cafe/${comic.id}`}
-                className={styles.comicCard}
-              >
-                <div className={styles.comicCardTop}>
-                  <h3 className={styles.comicCardTitle}>{comic.title}</h3>
-                  <span
-                    className={`${styles.statusBadge} ${getStatusClass(comic.status)}`}
-                  >
-                    {comic.status.toLowerCase()}
-                  </span>
-                </div>
-
-                {comic.description && (
-                  <p className={styles.comicCardDescription}>
-                    {comic.description}
-                  </p>
-                )}
-
-                <div className={styles.comicCardMeta}>
-                  {comic.genres.slice(0, 3).map((genre) => (
-                    <span key={genre} className={styles.genreTag}>
-                      {genre.toLowerCase().replace("_", " ")}
-                    </span>
-                  ))}
-                  <span className={styles.metaStat}>
-                    <Link2 className={styles.metaStatIcon} />
-                    {comic._count.chapterLinks}
-                  </span>
-                  <span className={styles.metaStat}>
-                    <BookOpen className={styles.metaStatIcon} />
-                    {comic._count.bookmarks}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </section>
+      <CafeComicList comics={serializedComics} />
     </>
   );
 }

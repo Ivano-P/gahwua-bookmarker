@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 3.5rem 1.5rem 3rem;
+  padding: 3rem 1.25rem 2.5rem;
   background: linear-gradient(
     160deg,
     var(--color-midnight-navy) 0%,
@@ -28,7 +28,7 @@
 }
 
 .cafeTitle {
-  font-size: 2rem;
+  font-size: 1.85rem;
   font-weight: 800;
   color: var(--color-off-white);
   margin: 0 0 0.75rem;
@@ -40,7 +40,7 @@
 }
 
 .cafeSubtitle {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   color: var(--color-light-gray);
   opacity: 0.8;
@@ -48,24 +48,86 @@
   max-width: 480px;
 }
 
-/* Feed Section */
+/* ── Feed Section ─────────────────────────── */
 .cafeFeed {
-  padding: 2.5rem 1rem;
+  padding: 1.75rem 1rem;
   max-width: 1100px;
   margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* ── Feed Toolbar ─────────────────────────── */
+.feedToolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  width: 100%;
 }
 
 .feedTitle {
-  font-size: 1.25rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--color-midnight-navy);
-  margin: 0 0 1.25rem;
+  margin: 0;
 }
 
+.feedCount {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-dark-navy);
+  opacity: 0.45;
+}
+
+.feedSearchBox {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.feedSearchIcon {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  color: var(--color-dark-navy);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.feedSearchInput {
+  width: 100%;
+  padding: 0.5rem 0.65rem 0.5rem 2rem;
+  font-size: 0.82rem;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--color-midnight-navy);
+  outline: none;
+  transition: border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.feedSearchInput:focus {
+  border-color: var(--color-bright-cyan);
+}
+
+.feedSearchInput::placeholder {
+  color: var(--color-dark-navy);
+  opacity: 0.4;
+}
+
+/* ── Comic Grid ──────────────────────────── */
 .comicGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .comicCard {
@@ -75,7 +137,7 @@
   background: #ffffff;
   border: 1px solid var(--color-light-gray);
   border-radius: 12px;
-  padding: 1.25rem;
+  padding: 1.1rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -89,11 +151,11 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .comicCardTitle {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--color-midnight-navy);
   margin: 0;
@@ -103,11 +165,11 @@
 .statusBadge {
   display: inline-flex;
   align-items: center;
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 0.18rem 0.55rem;
+  padding: 0.15rem 0.5rem;
   border-radius: 100px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -134,11 +196,11 @@
 }
 
 .comicCardDescription {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-dark-navy);
   opacity: 0.7;
   line-height: 1.55;
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.65rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -148,16 +210,16 @@
 .comicCardMeta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-items: center;
 }
 
 .genreTag {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 0.15rem 0.5rem;
+  padding: 0.12rem 0.45rem;
   border-radius: 4px;
   background-color: rgba(17, 24, 32, 0.06);
   color: var(--color-dark-navy);
@@ -166,31 +228,31 @@
 .metaStat {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.8rem;
+  gap: 0.2rem;
+  font-size: 0.75rem;
   color: var(--color-dark-navy);
   opacity: 0.6;
   margin-left: auto;
 }
 
 .metaStatIcon {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
 }
 
-/* Empty Cafe */
+/* ── Empty Cafe ───────────────────────────── */
 .emptyFeed {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 4rem 1.5rem;
+  padding: 3rem 1.5rem;
   gap: 0.75rem;
 }
 
 .emptyIcon {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   color: var(--color-light-gray);
 }
 
@@ -211,7 +273,7 @@
 /************** Larger screens adjustments *****************************/
 @media (min-width: 768px) {
   .cafeHero {
-    padding: 4.5rem 2rem 3.5rem;
+    padding: 4rem 2rem 3rem;
   }
 
   .cafeTitle {
@@ -223,16 +285,35 @@
   }
 
   .cafeFeed {
-    padding: 3rem 2rem;
+    padding: 2.5rem 2rem;
+  }
+
+  .feedToolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .feedTitle {
     font-size: 1.4rem;
   }
 
+  .feedSearchBox {
+    width: auto;
+    max-width: 280px;
+  }
+
   .comicGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
+  }
+
+  .comicCardTitle {
+    font-size: 1.05rem;
+  }
+
+  .statusBadge {
+    font-size: 0.6rem;
   }
 }
 
