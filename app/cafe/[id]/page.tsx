@@ -3,6 +3,7 @@ import { ComicService } from "@/app/services/comic.service";
 import { checkUserBookmarkAction } from "@/app/actions/comic.actions";
 import { AddChapterForm } from "@/components/cafe/AddChapterForm";
 import { BookmarkButton } from "@/components/cafe/BookmarkButton";
+import { ChapterDropdown } from "@/components/cafe/ChapterDropdown";
 import {
   ArrowLeft,
   Globe,
@@ -59,6 +60,23 @@ export default async function CafeComicPage({
     "success" in bookmarkResult && bookmarkResult.data
       ? bookmarkResult.data.currentChapter
       : null;
+
+  const groupedChapters = comic.chapterLinks.reduce((acc, chapter) => {
+    if (!acc[chapter.chapterNum]) {
+      acc[chapter.chapterNum] = [];
+    }
+    acc[chapter.chapterNum].push(chapter);
+    return acc;
+  }, {} as Record<string, typeof comic.chapterLinks>);
+
+  const sortedChapterNums = Object.keys(groupedChapters).sort((a, b) => {
+    const numA = parseFloat(a);
+    const numB = parseFloat(b);
+    if (!isNaN(numA) && !isNaN(numB)) {
+      return numB - numA; // Descending
+    }
+    return b.localeCompare(a);
+  });
 
   return (
     <div className={styles.detailContainer}>
@@ -143,28 +161,12 @@ export default async function CafeComicPage({
             </p>
           ) : (
             <div className={styles.chapterList}>
-              {comic.chapterLinks.map((chapter) => (
-                <div key={chapter.id} className={styles.chapterItem}>
-                  <div className={styles.chapterInfo}>
-                    <span className={styles.chapterNum}>
-                      Chapter {chapter.chapterNum}
-                    </span>
-                    {chapter.source && (
-                      <span className={styles.chapterSource}>
-                        via {chapter.source.siteName || "unknown"}
-                      </span>
-                    )}
-                  </div>
-                  <a
-                    href={chapter.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.chapterLink}
-                  >
-                    Read
-                    <ExternalLink className={styles.linkIcon} />
-                  </a>
-                </div>
+              {sortedChapterNums.map((chapterNum) => (
+                <ChapterDropdown
+                  key={chapterNum}
+                  chapterNum={chapterNum}
+                  links={groupedChapters[chapterNum]}
+                />
               ))}
             </div>
           )}

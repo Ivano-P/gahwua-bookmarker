@@ -1,0 +1,93 @@
+.chapterGroup {
+  background: #ffffff;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+  margin-bottom: 0.5rem;
+}
+
+.chapterGroup:hover {
+  border-color: var(--color-bright-cyan);
+}
+
+.chapterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.chapterNum {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-midnight-navy);
+}
+
+.chapterHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chapterSourceCount {
+  font-size: 0.75rem;
+  color: var(--color-dark-navy);
+  opacity: 0.6;
+}
+
+.chevronIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-dark-navy);
+  opacity: 0.5;
+  transition: transform 0.2s ease;
+}
+
+.chapterLinksList {
+  border-top: 1px solid var(--color-light-gray);
+  background: rgba(33, 201, 193, 0.02);
+  padding: 0.5rem 0;
+}
+
+.chapterLinkRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.chapterSource {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-dark-navy);
+  opacity: 0.8;
+}
+
+.chapterLinkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-bright-cyan);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(33, 201, 193, 0.25);
+  transition: background 0.15s ease;
+}
+
+.chapterLinkBtn:hover {
+  background: rgba(33, 201, 193, 0.08);
+}
+
+.linkIcon {
+  width: 12px;
+  height: 12px;
+}

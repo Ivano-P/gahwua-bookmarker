@@ -11,6 +11,7 @@ import {
   addChapterAction,
   deleteChapterAction,
 } from "@/app/actions/admin.actions";
+import { AdminChapterDropdown } from "./AdminChapterDropdown";
 import {
   Search,
   Plus,
@@ -425,33 +426,29 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
                         Chapters ({comic.chapterLinks.length})
                       </div>
                       <div className={styles.detailList}>
-                        {comic.chapterLinks.map((ch) => (
-                          <div key={ch.id} className={styles.detailItem}>
-                            <span className={styles.detailItemText}>
-                              Ch. {ch.chapterNum}
-                            </span>
-                            <a
-                              href={ch.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={styles.detailItemLink}
-                              style={{ textAlign: "right" }}
-                            >
-                              {ch.source?.siteName ?? "link"}
-                              <ExternalLink
-                                size={11}
-                                style={{ marginLeft: "0.3rem", verticalAlign: "middle" }}
-                              />
-                            </a>
-                            <button
-                              className={styles.removeBtn}
-                              onClick={() => handleDeleteChapter(ch.id)}
-                              title="Remove chapter"
-                            >
-                              <X size={13} />
-                            </button>
-                          </div>
-                        ))}
+                        {(() => {
+                          const grouped = comic.chapterLinks.reduce((acc, ch) => {
+                            if (!acc[ch.chapterNum]) acc[ch.chapterNum] = [];
+                            acc[ch.chapterNum].push(ch);
+                            return acc;
+                          }, {} as Record<string, typeof comic.chapterLinks>);
+                          
+                          const sortedNums = Object.keys(grouped).sort((a, b) => {
+                            const numA = parseFloat(a);
+                            const numB = parseFloat(b);
+                            if (!isNaN(numA) && !isNaN(numB)) return numB - numA;
+                            return b.localeCompare(a);
+                          });
+
+                          return sortedNums.map((chapterNum) => (
+                            <AdminChapterDropdown
+                              key={chapterNum}
+                              chapterNum={chapterNum}
+                              links={grouped[chapterNum]}
+                              onDelete={handleDeleteChapter}
+                            />
+                          ));
+                        })()}
                       </div>
                       <div className={styles.addRow}>
                         <input
