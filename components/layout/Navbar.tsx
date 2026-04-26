@@ -15,7 +15,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, User, LogOut, Coffee, Bookmark } from "lucide-react";
+import { Menu, X, User, LogOut, Coffee, Bookmark, Shield, BookOpen, Users } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 export function Navbar() {
@@ -43,6 +43,8 @@ export function Navbar() {
             .slice(0, 2);
     };
 
+    const isAdmin = session?.user?.role === "admin";
+
     return (
         <nav className={styles.navbar}>
             <Link href="/" className={styles.logo} onClick={closeMenu}>
@@ -68,6 +70,36 @@ export function Navbar() {
                                 <Link href="/cafe"><Coffee size={16} /> Cafe</Link>
                             </Button>
                         </div>
+
+                        {/* Admin Dropdown (desktop) */}
+                        {isAdmin && (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className={`${styles.adminTrigger} ${pathname.startsWith('/admin') ? styles.adminTriggerActive : ''}`}>
+                                    <Shield size={16} />
+                                    <span>Admin</span>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className={styles.dropdownContent}>
+                                    <DropdownMenuLabel className={styles.dropdownLabel}>
+                                        <span className={styles.dropdownName}>Administration</span>
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                        className={styles.dropdownItem}
+                                        onClick={() => router.push("/admin/dashboard")}
+                                    >
+                                        <BookOpen className={styles.dropdownIcon} />
+                                        Comics
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        className={styles.dropdownItem}
+                                        onClick={() => router.push("/admin/users")}
+                                    >
+                                        <Users className={styles.dropdownIcon} />
+                                        Users
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        )}
 
                         {/* Avatar Dropdown */}
                         <DropdownMenu>
@@ -142,6 +174,23 @@ export function Navbar() {
                             <Button asChild variant="ghost" className={styles.pageLink} onClick={closeMenu}>
                                 <Link href="/user/account">My Account</Link>
                             </Button>
+
+                            {/* Admin links (mobile) */}
+                            {isAdmin && (
+                                <>
+                                    <div className={styles.mobileAdminDivider}>
+                                        <Shield size={14} />
+                                        <span>Admin</span>
+                                    </div>
+                                    <Button asChild variant="ghost" className={`${styles.pageLink} ${styles.mobileAdminLink} ${pathname === '/admin/dashboard' ? styles.activePageLink : ''}`} onClick={closeMenu}>
+                                        <Link href="/admin/dashboard"><BookOpen size={14} /> Comics</Link>
+                                    </Button>
+                                    <Button asChild variant="ghost" className={`${styles.pageLink} ${styles.mobileAdminLink} ${pathname === '/admin/users' ? styles.activePageLink : ''}`} onClick={closeMenu}>
+                                        <Link href="/admin/users"><Users size={14} /> Users</Link>
+                                    </Button>
+                                </>
+                            )}
+
                             <Button className={styles.authButton} onClick={handleSignOut}>
                                 Sign Out
                             </Button>

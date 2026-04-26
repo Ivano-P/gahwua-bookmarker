@@ -113,6 +113,53 @@
     font-size: 0.8rem !important;
 }
 
+/* Admin Trigger (desktop) */
+.adminTrigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-off-white);
+    background: rgba(229, 91, 92, 0.15);
+    border: 1px solid rgba(229, 91, 92, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    outline: none;
+}
+
+.adminTrigger:hover,
+.adminTrigger:focus-visible {
+    background: rgba(229, 91, 92, 0.25);
+    border-color: rgba(229, 91, 92, 0.5);
+}
+
+.adminTriggerActive {
+    background: rgba(229, 91, 92, 0.3);
+    border-color: var(--color-coral-red);
+}
+
+/* Mobile Admin Section */
+.mobileAdminDivider {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-coral-red);
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobileAdminLink {
+    padding-left: 0.5rem !important;
+    font-size: 0.9rem !important;
+}
+
 /* Dropdown Menu */
 .dropdownContent {
     min-width: 200px !important;

@@ -1,0 +1,119 @@
+"use server";
+
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { AdminService } from "@/app/services/admin.service";
+
+/**
+ * Helper: get session and verify admin role.
+ * Returns session or null if not admin.
+ */
+async function requireAdmin() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session || session.user.role !== "admin") {
+    return null;
+  }
+  return session;
+}
+
+// ── Comic Actions ──────────────────────────────
+
+export async function getAdminComicsAction() {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.getAllComics();
+}
+
+export async function createComicAction(data: {
+  title: string;
+  status?: string;
+  description?: string;
+  imageUrl?: string;
+}) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+
+  if (!data.title.trim()) return { error: "Title is required." };
+  return AdminService.createComic(data);
+}
+
+export async function updateComicAction(
+  comicId: string,
+  data: {
+    title?: string;
+    status?: string;
+    description?: string;
+    imageUrl?: string;
+  }
+) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.updateComic(comicId, data);
+}
+
+export async function deleteComicAction(comicId: string) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.deleteComic(comicId);
+}
+
+// ── Source Actions ──────────────────────────────
+
+export async function addSourceAction(
+  comicId: string,
+  url: string,
+  siteName?: string
+) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+
+  try {
+    new URL(url);
+  } catch {
+    return { error: "Invalid URL." };
+  }
+
+  return AdminService.addComicSource(comicId, url, siteName);
+}
+
+export async function deleteSourceAction(sourceId: string) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.deleteComicSource(sourceId);
+}
+
+// ── Chapter Link Actions ───────────────────────
+
+export async function addChapterAction(
+  comicId: string,
+  chapterNum: string,
+  url: string
+) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+
+  if (!chapterNum.trim()) return { error: "Chapter number is required." };
+  try {
+    new URL(url);
+  } catch {
+    return { error: "Invalid chapter URL." };
+  }
+
+  return AdminService.addChapterLink(comicId, chapterNum, url);
+}
+
+export async function deleteChapterAction(linkId: string) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.deleteChapterLink(linkId);
+}
+
+// ── User Actions ───────────────────────────────
+
+export async function getAdminUsersAction() {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.getAllUsers();
+}
