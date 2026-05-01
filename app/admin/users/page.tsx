@@ -33,6 +33,7 @@ export default async function AdminUsersPage() {
     // Serialize dates for client component
     const serializedUsers = users.map((u) => ({
         ...u,
+        trustedEditor: u.trustedEditor,
         createdAt: u.createdAt.toISOString(),
     }));
 

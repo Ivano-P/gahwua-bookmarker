@@ -112,6 +112,8 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
   const [createStatus, setCreateStatus] = useState("ONGOING");
   const [createDescription, setCreateDescription] = useState("");
   const [createImageUrl, setCreateImageUrl] = useState("");
+  const [createSourceUrl, setCreateSourceUrl] = useState("");
+  const [createSourceLang, setCreateSourceLang] = useState<Language>("EN");
   const [createError, setCreateError] = useState("");
 
   const filtered = comics.filter((c) =>
@@ -135,9 +137,11 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
       status: createStatus,
       description: createDescription.trim() || undefined,
       imageUrl: createImageUrl.trim() || undefined,
+      sourceUrl: createSourceUrl.trim() || undefined,
+      sourceLanguage: createSourceUrl.trim() ? createSourceLang : undefined,
     });
     if ("error" in result) {
-      setCreateError(result.error);
+      setCreateError(result.error ?? "Something went wrong.");
       setSaving(false);
       return;
     }
@@ -146,6 +150,8 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
     setCreateStatus("ONGOING");
     setCreateDescription("");
     setCreateImageUrl("");
+    setCreateSourceUrl("");
+    setCreateSourceLang("EN");
     setSaving(false);
     router.refresh();
   };
@@ -580,6 +586,31 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
                 onChange={(e) => setCreateImageUrl(e.target.value)}
                 placeholder="https://..."
               />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Source URL</label>
+              <div className={styles.addRow} style={{ marginTop: "0.25rem" }}>
+                <select
+                  className={styles.addLangSelect}
+                  value={createSourceLang}
+                  onChange={(e) => setCreateSourceLang(e.target.value as Language)}
+                >
+                  {LANGUAGE_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="url"
+                  className={styles.addInput}
+                  value={createSourceUrl}
+                  onChange={(e) => setCreateSourceUrl(e.target.value)}
+                  placeholder="https://mangasite.com"
+                  style={{ flex: 1 }}
+                />
+              </div>
             </div>
 
             {createError && (

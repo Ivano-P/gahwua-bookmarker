@@ -7,6 +7,7 @@ import {
   syncUserBookmarkAction,
   addGlobalChapterLinkAction,
 } from "@/app/actions/comic.actions";
+import { AddComicModal } from "./AddComicModal";
 import {
   Search,
   Plus,
@@ -149,10 +150,10 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Link href="/cafe" className={styles.addBtn}>
+          <button className={styles.addBtn} onClick={() => setShowAddModal(true)}>
             <Plus size={16} />
             <span className={styles.addBtnText}>Add New</span>
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -169,13 +170,13 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
           <BookOpen className={styles.emptyIcon} />
           <h2 className={styles.emptyTitle}>No bookmarks yet</h2>
           <p className={styles.emptyDescription}>
-            Head over to the Cafe to discover comics and start tracking your
-            reading progress.
+            Click &ldquo;Add New&rdquo; above to add a comic and start tracking
+            your reading progress.
           </p>
-          <Link href="/cafe" className={styles.emptyCta}>
-            <Coffee size={16} />
-            Browse the Cafe
-          </Link>
+          <button className={styles.emptyCta} onClick={() => setShowAddModal(true)}>
+            <Plus size={16} />
+            Add Your First Comic
+          </button>
         </div>
       ) : (
         <div className={styles.bookmarkList}>
@@ -292,6 +293,11 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
             );
           })}
         </div>
+      )}
+
+      {/* Add Comic Modal */}
+      {showAddModal && (
+        <AddComicModal onClose={() => setShowAddModal(false)} />
       )}
     </>
   );

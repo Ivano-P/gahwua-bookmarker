@@ -12,6 +12,7 @@ export class ComicService {
   static async getAllComics() {
     try {
       const comics = await prisma.comic.findMany({
+        where: { approvalStatus: "APPROVED" },
         include: {
           sources: true,
           _count: { select: { chapterLinks: true, bookmarks: true } },
@@ -42,7 +43,7 @@ export class ComicService {
         },
       });
 
-      if (!comic) {
+      if (!comic || comic.approvalStatus !== "APPROVED") {
         return { error: "Comic not found." };
       }
 
@@ -170,6 +171,118 @@ export class ComicService {
     } catch (error) {
       console.error("[ComicService.getUserBookmarkForComic]", error);
       return { error: "Failed to check bookmark status." };
+    }
+  }
+
+  /**
+   * Search comics by title (case-insensitive) for autocomplete.
+   * Only returns APPROVED comics.
+   */
+  static async searchComicsByTitle(query: string) {
+    try {
+      const comics = await prisma.comic.findMany({
+        where: {
+          approvalStatus: "APPROVED",
+          title: { contains: query, mode: "insensitive" },
+        },
+        select: {
+          id: true,
+          title: true,
+          imageUrl: true,
+          status: true,
+        },
+        take: 8,
+        orderBy: { title: "asc" },
+      });
+      return { success: true as const, data: comics };
+    } catch (error) {
+      console.error("[ComicService.searchComicsByTitle]", error);
+      return { error: "Failed to search comics." };
+    }
+  }
+
+  /**
+   * Create a comic from the bookmarker flow.
+   * If user is trusted, comic is APPROVED immediately.
+   * Otherwise, comic is PENDING admin review.
+   * Also creates a bookmark and optionally a chapter link + source.
+   */
+  static async createComicFromUser(data: {
+    title: string;
+    status?: string;
+    description?: string;
+    imageUrl?: string;
+    sourceUrl?: string;
+    sourceLanguage?: string;
+    chapterNum?: string;
+    chapterUrl?: string;
+    chapterLanguage?: string;
+    userId: string;
+    isTrusted: boolean;
+  }) {
+    try {
+      // Create the comic
+      const comic = await prisma.comic.create({
+        data: {
+          title: data.title,
+          status: (data.status as "ONGOING" | "COMPLETED" | "HIATUS" | "CANCELLED") ?? "ONGOING",
+          description: data.description ?? null,
+          imageUrl: data.imageUrl ?? null,
+          approvalStatus: data.isTrusted ? "APPROVED" : "PENDING",
+          submittedById: data.userId,
+        },
+      });
+
+      // Create source if provided
+      let sourceId: string | null = null;
+      if (data.sourceUrl?.trim()) {
+        try {
+          const parsedUrl = new URL(data.sourceUrl);
+          const siteName = parsedUrl.hostname.replace(/^www\./, "");
+          const source = await prisma.comicSource.create({
+            data: {
+              comicId: comic.id,
+              url: data.sourceUrl,
+              siteName,
+              language: (data.sourceLanguage as Language) ?? "EN",
+            },
+          });
+          sourceId = source.id;
+        } catch {
+          console.warn("[ComicService.createComicFromUser] Source creation failed.");
+        }
+      }
+
+      // Create chapter link if provided
+      if (data.chapterNum?.trim() && data.chapterUrl?.trim()) {
+        try {
+          await prisma.chapterLink.create({
+            data: {
+              comicId: comic.id,
+              sourceId,
+              chapterNum: data.chapterNum,
+              url: data.chapterUrl,
+              language: (data.chapterLanguage as Language) ?? "EN",
+            },
+          });
+        } catch {
+          console.warn("[ComicService.createComicFromUser] Chapter link creation failed.");
+        }
+      }
+
+      // Create bookmark for the user
+      await prisma.bookmark.create({
+        data: {
+          userId: data.userId,
+          comicId: comic.id,
+          currentChapter: data.chapterNum?.trim() || "1",
+        },
+      });
+
+      return { success: true as const, data: comic };
+    } catch (error) {
+      console.error("[ComicService.createComicFromUser]", error);
+      return { error: "Failed to create comic." };
     }
   }
 }

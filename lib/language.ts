@@ -24,7 +24,7 @@ export const LANGUAGE_OPTIONS = [
 ] as const;
 
 /** Map from code → option for quick lookups */
-const LANGUAGE_MAP = new Map(
+const LANGUAGE_MAP = new Map<string, (typeof LANGUAGE_OPTIONS)[number]>(
   LANGUAGE_OPTIONS.map((opt) => [opt.value, opt])
 );
 

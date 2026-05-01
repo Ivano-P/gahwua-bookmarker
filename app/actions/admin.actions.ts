@@ -32,6 +32,8 @@ export async function createComicAction(data: {
   status?: string;
   description?: string;
   imageUrl?: string;
+  sourceUrl?: string;
+  sourceLanguage?: string;
 }) {
   const session = await requireAdmin();
   if (!session) return { error: "Unauthorized." };
@@ -119,4 +121,33 @@ export async function getAdminUsersAction() {
   const session = await requireAdmin();
   if (!session) return { error: "Unauthorized." };
   return AdminService.getAllUsers();
+}
+
+export async function toggleTrustedEditorAction(
+  userId: string,
+  value: boolean
+) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.toggleTrustedEditor(userId, value);
+}
+
+// ── Pending Comic Actions ──────────────────────
+
+export async function getPendingComicsAction() {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.getPendingComics();
+}
+
+export async function approveComicAction(comicId: string) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.approveComic(comicId);
+}
+
+export async function rejectComicAction(comicId: string) {
+  const session = await requireAdmin();
+  if (!session) return { error: "Unauthorized." };
+  return AdminService.rejectComic(comicId);
 }

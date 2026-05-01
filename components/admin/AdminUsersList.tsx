@@ -1,6 +1,9 @@
 "use client";
 
-import { Users } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Users, ShieldCheck, ShieldOff } from "lucide-react";
+import { toggleTrustedEditorAction } from "@/app/actions/admin.actions";
 import styles from "@/app/admin/users/page.module.css";
 
 interface UserData {
@@ -10,6 +13,7 @@ interface UserData {
   username: string | null;
   role: string;
   banned: boolean;
+  trustedEditor: boolean;
   createdAt: string;
   _count: { bookmarks: number };
 }
@@ -28,6 +32,16 @@ function getInitials(name: string): string {
 }
 
 export function AdminUsersList({ users }: AdminUsersListProps) {
+  const router = useRouter();
+  const [toggling, setToggling] = useState<string | null>(null);
+
+  const handleToggleTrust = async (userId: string, currentValue: boolean) => {
+    setToggling(userId);
+    await toggleTrustedEditorAction(userId, !currentValue);
+    setToggling(null);
+    router.refresh();
+  };
+
   if (users.length === 0) {
     return (
       <div className={styles.emptyState}>
@@ -70,6 +84,34 @@ export function AdminUsersList({ users }: AdminUsersListProps) {
               })}
             </span>
           </div>
+
+          {/* Trusted Editor Toggle */}
+          {user.role !== "admin" && (
+            <button
+              className={`${styles.trustBadge} ${
+                user.trustedEditor ? styles.trustBadgeTrusted : styles.trustBadgeRestricted
+              }`}
+              onClick={() => handleToggleTrust(user.id, user.trustedEditor)}
+              disabled={toggling === user.id}
+              title={
+                user.trustedEditor
+                  ? "Click to restrict this user"
+                  : "Click to trust this user"
+              }
+            >
+              {user.trustedEditor ? (
+                <>
+                  <ShieldCheck size={12} />
+                  <span className={styles.trustBadgeText}>Trusted</span>
+                </>
+              ) : (
+                <>
+                  <ShieldOff size={12} />
+                  <span className={styles.trustBadgeText}>Restricted</span>
+                </>
+              )}
+            </button>
+          )}
 
           {/* Role Badge */}
           <span

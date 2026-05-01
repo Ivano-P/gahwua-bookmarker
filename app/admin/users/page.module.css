@@ -130,6 +130,49 @@
   color: #189c96;
 }
 
+/* ── Trusted Editor Toggle ─────────────── */
+.trustBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.trustBadge:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.trustBadge:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.trustBadgeTrusted {
+  background-color: rgba(33, 201, 193, 0.1);
+  color: #189c96;
+  border-color: rgba(33, 201, 193, 0.2);
+}
+
+.trustBadgeRestricted {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #888;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.trustBadgeText {
+  display: none;
+}
+
 /* ── Meta ─────────────────────────────────── */
 .userMeta {
   display: none;
@@ -198,5 +241,9 @@
     font-size: 0.75rem;
     color: var(--color-dark-navy);
     opacity: 0.5;
+  }
+
+  .trustBadgeText {
+    display: inline;
   }
 }

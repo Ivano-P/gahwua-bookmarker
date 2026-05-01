@@ -1,11 +1,11 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { getAdminComicsAction } from "@/app/actions/admin.actions";
-import { AdminComicsList } from "@/components/admin/AdminComicsList";
+import { getPendingComicsAction } from "@/app/actions/admin.actions";
+import { PendingComicsList } from "@/components/admin/PendingComicsList";
 import styles from "./page.module.css";
 
-export default async function AdminDashboard() {
+export default async function AdminPendingPage() {
     const session = await auth.api.getSession({
         headers: await headers(),
     });
@@ -18,46 +18,46 @@ export default async function AdminDashboard() {
         redirect("/user/bookmarker");
     }
 
-    const result = await getAdminComicsAction();
+    const result = await getPendingComicsAction();
 
     if ("error" in result) {
         return (
             <div className={styles.dashboardContainer}>
-                <p>Something went wrong loading comics.</p>
+                <p>Something went wrong loading pending comics.</p>
             </div>
         );
     }
 
     const comics = result.data;
 
-    // Serialize for client component
     const serializedComics = comics.map((c) => ({
         id: c.id,
         title: c.title,
         status: c.status,
         description: c.description,
         imageUrl: c.imageUrl,
+        createdAt: c.createdAt.toISOString(),
         sources: c.sources.map((s) => ({
             id: s.id,
             url: s.url,
             siteName: s.siteName,
             language: s.language,
         })),
-        chapterLinks: c.chapterLinks.map((ch) => ({
-            id: ch.id,
-            chapterNum: ch.chapterNum,
-            url: ch.url,
-            language: ch.language,
-            source: ch.source
-                ? { siteName: ch.source.siteName }
-                : null,
-        })),
+        submittedBy: c.submittedBy,
         _count: c._count,
     }));
 
     return (
         <div className={styles.dashboardContainer}>
-            <AdminComicsList comics={serializedComics} />
+            <div className={styles.toolbar}>
+                <div className={styles.toolbarLeft}>
+                    <h1 className={styles.dashboardTitle}>Pending Comics</h1>
+                    <span className={styles.pendingCount}>
+                        {comics.length} pending
+                    </span>
+                </div>
+            </div>
+            <PendingComicsList comics={serializedComics} />
         </div>
     );
 }

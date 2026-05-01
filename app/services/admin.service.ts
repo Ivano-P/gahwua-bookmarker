@@ -37,6 +37,8 @@ export class AdminService {
     status?: string;
     description?: string;
     imageUrl?: string;
+    sourceUrl?: string;
+    sourceLanguage?: string;
   }) {
     try {
       const comic = await prisma.comic.create({
@@ -45,8 +47,29 @@ export class AdminService {
           status: (data.status as "ONGOING" | "COMPLETED" | "HIATUS" | "CANCELLED") ?? "ONGOING",
           description: data.description ?? null,
           imageUrl: data.imageUrl ?? null,
+          approvalStatus: "APPROVED",
         },
       });
+
+      // If a source URL was provided, also create the source
+      if (data.sourceUrl?.trim()) {
+        try {
+          const parsedUrl = new URL(data.sourceUrl);
+          const siteName = parsedUrl.hostname.replace(/^www\./, "");
+          await prisma.comicSource.create({
+            data: {
+              comicId: comic.id,
+              url: data.sourceUrl,
+              siteName,
+              language: (data.sourceLanguage as Language) ?? "EN",
+            },
+          });
+        } catch {
+          // Source creation failed but comic was created — acceptable
+          console.warn("[AdminService.createComic] Source creation failed, comic created without source.");
+        }
+      }
+
       return { success: true as const, data: comic };
     } catch (error) {
       console.error("[AdminService.createComic]", error);
@@ -198,6 +221,7 @@ export class AdminService {
           username: true,
           role: true,
           banned: true,
+          trustedEditor: true,
           createdAt: true,
           _count: { select: { bookmarks: true } },
         },
@@ -207,6 +231,77 @@ export class AdminService {
     } catch (error) {
       console.error("[AdminService.getAllUsers]", error);
       return { error: "Failed to fetch users." };
+    }
+  }
+
+  /**
+   * Toggle a user's trustedEditor status.
+   */
+  static async toggleTrustedEditor(userId: string, value: boolean) {
+    try {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { trustedEditor: value },
+      });
+      return { success: true as const };
+    } catch (error) {
+      console.error("[AdminService.toggleTrustedEditor]", error);
+      return { error: "Failed to update user." };
+    }
+  }
+
+  /**
+   * Fetch all comics pending approval.
+   */
+  static async getPendingComics() {
+    try {
+      const comics = await prisma.comic.findMany({
+        where: { approvalStatus: "PENDING" },
+        include: {
+          sources: true,
+          submittedBy: {
+            select: { id: true, name: true, username: true },
+          },
+          _count: { select: { chapterLinks: true } },
+        },
+        orderBy: { createdAt: "desc" },
+      });
+      return { success: true as const, data: comics };
+    } catch (error) {
+      console.error("[AdminService.getPendingComics]", error);
+      return { error: "Failed to fetch pending comics." };
+    }
+  }
+
+  /**
+   * Approve a pending comic.
+   */
+  static async approveComic(comicId: string) {
+    try {
+      await prisma.comic.update({
+        where: { id: comicId },
+        data: { approvalStatus: "APPROVED" },
+      });
+      return { success: true as const };
+    } catch (error) {
+      console.error("[AdminService.approveComic]", error);
+      return { error: "Failed to approve comic." };
+    }
+  }
+
+  /**
+   * Reject a pending comic.
+   */
+  static async rejectComic(comicId: string) {
+    try {
+      await prisma.comic.update({
+        where: { id: comicId },
+        data: { approvalStatus: "REJECTED" },
+      });
+      return { success: true as const };
+    } catch (error) {
+      console.error("[AdminService.rejectComic]", error);
+      return { error: "Failed to reject comic." };
     }
   }
 }

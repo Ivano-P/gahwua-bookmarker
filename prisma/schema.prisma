@@ -24,9 +24,11 @@ model User {
   banExpires      DateTime?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
+  trustedEditor   Boolean    @default(true)
   sessions        Session[]
   accounts        Account[]
   bookmarks       Bookmark[]
+  submittedComics Comic[]    @relation("submittedComics")
 
   @@unique([email])
   @@map("user")
@@ -128,6 +130,12 @@ enum Language {
   OTHER // Fallback
 }
 
+enum ApprovalStatus {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
 model Comic {
   id          String            @id @default(cuid())
   title       String            @unique
@@ -140,9 +148,13 @@ model Comic {
   averageRating Float @default(0)
   totalRatings  Int   @default(0)
 
+  approvalStatus ApprovalStatus @default(APPROVED)
+  submittedById  String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  submittedBy  User?         @relation("submittedComics", fields: [submittedById], references: [id])
   bookmarks    Bookmark[]
   sources      ComicSource[]
   chapterLinks ChapterLink[]
