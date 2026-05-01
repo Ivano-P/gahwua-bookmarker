@@ -12,6 +12,7 @@ import {
   BookOpen,
   Users,
 } from "lucide-react";
+import { getLanguageLabel, getLanguageFullName } from "@/lib/language";
 import styles from "./page.module.css";
 
 function getStatusClass(status: string) {
@@ -139,10 +140,23 @@ export default async function CafeComicPage({
             </h2>
             <div className={styles.sourcesList}>
               {comic.sources.map((source) => (
-                <span key={source.id} className={styles.sourceChip}>
+                <a
+                  key={source.id}
+                  href={source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.sourceChip}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <span
+                    className={styles.langBadge}
+                    title={getLanguageFullName(source.language)}
+                  >
+                    {getLanguageLabel(source.language)}
+                  </span>
                   <Link2 className={styles.sourceIcon} />
                   {source.siteName || source.url}
-                </span>
+                </a>
               ))}
             </div>
           </div>

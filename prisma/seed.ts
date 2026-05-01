@@ -96,10 +96,11 @@ async function main() {
 
   await prisma.chapterLink.upsert({
     where: {
-      comicId_chapterNum_url: {
+      comicId_chapterNum_url_language: {
         comicId: returnOfTheDevourer.id,
         chapterNum: "24",
         url: "https://www.mangakakalot.gg/manga/return-of-the-devourer/chapter-24",
+        language: "EN",
       },
     },
     update: {},
@@ -108,16 +109,18 @@ async function main() {
       sourceId: mangakakalot.id,
       chapterNum: "24",
       url: "https://www.mangakakalot.gg/manga/return-of-the-devourer/chapter-24",
+      language: "EN",
     },
   });
   console.log("  ✔ ChapterLink: Return of the Devourer Ch.24");
 
   await prisma.chapterLink.upsert({
     where: {
-      comicId_chapterNum_url: {
+      comicId_chapterNum_url_language: {
         comicId: heavenlyDemon.id,
         chapterNum: "197",
         url: "https://mangafire.to/read/the-heavenly-demon-cant-live-a-normal-lifee.zlnn3/en/chapter-197",
+        language: "EN",
       },
     },
     update: {},
@@ -126,6 +129,7 @@ async function main() {
       sourceId: mangafire.id,
       chapterNum: "197",
       url: "https://mangafire.to/read/the-heavenly-demon-cant-live-a-normal-lifee.zlnn3/en/chapter-197",
+      language: "EN",
     },
   });
   console.log("  ✔ ChapterLink: Heavenly Demon Ch.197");

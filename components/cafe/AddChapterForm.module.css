@@ -48,6 +48,24 @@
   max-width: 120px;
 }
 
+.languageSelect {
+  padding: 0.55rem 0.5rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--color-midnight-navy);
+  outline: none;
+  cursor: pointer;
+  width: 100px;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease;
+}
+
+.languageSelect:focus {
+  border-color: var(--color-bright-cyan);
+}
+
 .submitBtn {
   display: inline-flex;
   align-items: center;

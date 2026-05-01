@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { ComicService } from "@/app/services/comic.service";
+import type { Language } from "@prisma/client";
 
 /**
  * Helper to get the authenticated user's session.
@@ -37,7 +38,8 @@ export async function syncUserBookmarkAction(
 export async function addGlobalChapterLinkAction(
   comicId: string,
   chapterNum: string,
-  chapterUrl: string
+  chapterUrl: string,
+  language: Language = "EN"
 ) {
   const session = await getAuthSession();
   if (!session) {
@@ -55,7 +57,7 @@ export async function addGlobalChapterLinkAction(
     return { error: "Chapter number is required." };
   }
 
-  return ComicService.addChapterLink(comicId, chapterNum, chapterUrl);
+  return ComicService.addChapterLink(comicId, chapterNum, chapterUrl, language);
 }
 
 /**

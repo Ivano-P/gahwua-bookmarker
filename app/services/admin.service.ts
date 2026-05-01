@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import type { Language } from "@prisma/client";
 
 /**
  * AdminService — Pure service layer for admin-related DB operations.
@@ -99,13 +100,19 @@ export class AdminService {
   /**
    * Add a source URL to a comic.
    */
-  static async addComicSource(comicId: string, url: string, siteName?: string) {
+  static async addComicSource(
+    comicId: string,
+    url: string,
+    siteName?: string,
+    language: Language = "EN"
+  ) {
     try {
       const source = await prisma.comicSource.create({
         data: {
           comicId,
           url,
           siteName: siteName ?? new URL(url).hostname.replace(/^www\./, ""),
+          language,
         },
       });
       return { success: true as const, data: source };
@@ -134,7 +141,8 @@ export class AdminService {
   static async addChapterLink(
     comicId: string,
     chapterNum: string,
-    url: string
+    url: string,
+    language: Language = "EN"
   ) {
     try {
       // Try to find or create a matching source
@@ -145,7 +153,7 @@ export class AdminService {
       const source = await prisma.comicSource.upsert({
         where: { comicId_url: { comicId, url: siteOrigin } },
         update: {},
-        create: { comicId, url: siteOrigin, siteName },
+        create: { comicId, url: siteOrigin, siteName, language },
       });
 
       const chapterLink = await prisma.chapterLink.create({
@@ -154,6 +162,7 @@ export class AdminService {
           sourceId: source.id,
           chapterNum,
           url,
+          language,
         },
       });
       return { success: true as const, data: chapterLink };

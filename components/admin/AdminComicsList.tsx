@@ -12,6 +12,8 @@ import {
   deleteChapterAction,
 } from "@/app/actions/admin.actions";
 import { AdminChapterDropdown } from "./AdminChapterDropdown";
+import { LANGUAGE_OPTIONS, getLanguageLabel, getLanguageFullName } from "@/lib/language";
+import type { Language } from "@prisma/client";
 import {
   Search,
   Plus,
@@ -31,6 +33,7 @@ interface ChapterLink {
   id: string;
   chapterNum: string;
   url: string;
+  language: string;
   source?: { siteName: string | null } | null;
 }
 
@@ -38,6 +41,7 @@ interface ComicSource {
   id: string;
   url: string;
   siteName: string | null;
+  language: string;
 }
 
 interface ComicData {
@@ -96,10 +100,12 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
 
   // Add source form state
   const [newSourceUrl, setNewSourceUrl] = useState("");
+  const [newSourceLang, setNewSourceLang] = useState<Language>("EN");
 
   // Add chapter form state
   const [newChapterNum, setNewChapterNum] = useState("");
   const [newChapterUrl, setNewChapterUrl] = useState("");
+  const [newChapterLang, setNewChapterLang] = useState<Language>("EN");
 
   // Create form state
   const [createTitle, setCreateTitle] = useState("");
@@ -166,8 +172,9 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
   const handleAddSource = async (comicId: string) => {
     if (!newSourceUrl.trim()) return;
     setSaving(true);
-    await addSourceAction(comicId, newSourceUrl.trim());
+    await addSourceAction(comicId, newSourceUrl.trim(), undefined, newSourceLang);
     setNewSourceUrl("");
+    setNewSourceLang("EN");
     setSaving(false);
     router.refresh();
   };
@@ -184,9 +191,10 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
   const handleAddChapter = async (comicId: string) => {
     if (!newChapterNum.trim() || !newChapterUrl.trim()) return;
     setSaving(true);
-    await addChapterAction(comicId, newChapterNum.trim(), newChapterUrl.trim());
+    await addChapterAction(comicId, newChapterNum.trim(), newChapterUrl.trim(), newChapterLang);
     setNewChapterNum("");
     setNewChapterUrl("");
+    setNewChapterLang("EN");
     setSaving(false);
     router.refresh();
   };
@@ -377,6 +385,12 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
                       <div className={styles.detailList}>
                         {comic.sources.map((source) => (
                           <div key={source.id} className={styles.detailItem}>
+                            <span
+                              className={styles.langBadge}
+                              title={getLanguageFullName(source.language)}
+                            >
+                              {getLanguageLabel(source.language)}
+                            </span>
                             <a
                               href={source.url}
                               target="_blank"
@@ -400,6 +414,17 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
                         ))}
                       </div>
                       <div className={styles.addRow}>
+                        <select
+                          className={styles.addLangSelect}
+                          value={newSourceLang}
+                          onChange={(e) => setNewSourceLang(e.target.value as Language)}
+                        >
+                          {LANGUAGE_OPTIONS.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
                         <input
                           type="url"
                           className={styles.addInput}
@@ -451,6 +476,17 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
                         })()}
                       </div>
                       <div className={styles.addRow}>
+                        <select
+                          className={styles.addLangSelect}
+                          value={newChapterLang}
+                          onChange={(e) => setNewChapterLang(e.target.value as Language)}
+                        >
+                          {LANGUAGE_OPTIONS.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
                         <input
                           type="text"
                           className={`${styles.addInput} ${styles.addInputSmall}`}

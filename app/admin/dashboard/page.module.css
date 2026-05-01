@@ -439,6 +439,41 @@
   cursor: not-allowed;
 }
 
+/* ── Language Badge ─────────────────────── */
+.langBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background: rgba(33, 201, 193, 0.08);
+  color: var(--color-midnight-navy);
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: default;
+  letter-spacing: 0.02em;
+}
+
+/* ── Language Select (inline forms) ────── */
+.addLangSelect {
+  padding: 0.3rem 0.35rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--color-midnight-navy);
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 80px;
+  transition: border-color 0.12s ease;
+}
+
+.addLangSelect:focus {
+  border-color: var(--color-bright-cyan);
+}
+
 /* ── Modal / Create Comic ───────────────── */
 .modalOverlay {
   position: fixed;

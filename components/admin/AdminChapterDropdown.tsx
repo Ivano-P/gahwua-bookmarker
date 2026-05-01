@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ExternalLink, X, ChevronDown, ChevronUp } from "lucide-react";
+import { getLanguageLabel, getLanguageFullName } from "@/lib/language";
 import styles from "@/app/admin/dashboard/page.module.css";
 import dropdownStyles from "../cafe/ChapterDropdown.module.css"; // Reuse styling for group container
 
@@ -9,6 +10,7 @@ interface ChapterLink {
   id: string;
   chapterNum: string;
   url: string;
+  language: string;
   source?: { siteName: string | null } | null;
 }
 
@@ -45,6 +47,12 @@ export function AdminChapterDropdown({ chapterNum, links, onDelete }: AdminChapt
         <div className={dropdownStyles.chapterLinksList} style={{ display: "flex", flexDirection: "column", gap: "0.25rem", padding: "0.5rem" }}>
           {links.map((ch) => (
             <div key={ch.id} className={styles.detailItem} style={{ border: "none", padding: "0.25rem 0.5rem", background: "white", borderRadius: "6px" }}>
+              <span
+                className={styles.langBadge}
+                title={getLanguageFullName(ch.language)}
+              >
+                {getLanguageLabel(ch.language)}
+              </span>
               <span className={styles.detailItemText} style={{ minWidth: "40px" }}>
                 Ch. {ch.chapterNum}
               </span>

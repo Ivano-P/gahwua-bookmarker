@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { AdminService } from "@/app/services/admin.service";
+import type { Language } from "@prisma/client";
 
 /**
  * Helper: get session and verify admin role.
@@ -64,7 +65,8 @@ export async function deleteComicAction(comicId: string) {
 export async function addSourceAction(
   comicId: string,
   url: string,
-  siteName?: string
+  siteName?: string,
+  language: Language = "EN"
 ) {
   const session = await requireAdmin();
   if (!session) return { error: "Unauthorized." };
@@ -75,7 +77,7 @@ export async function addSourceAction(
     return { error: "Invalid URL." };
   }
 
-  return AdminService.addComicSource(comicId, url, siteName);
+  return AdminService.addComicSource(comicId, url, siteName, language);
 }
 
 export async function deleteSourceAction(sourceId: string) {
@@ -89,7 +91,8 @@ export async function deleteSourceAction(sourceId: string) {
 export async function addChapterAction(
   comicId: string,
   chapterNum: string,
-  url: string
+  url: string,
+  language: Language = "EN"
 ) {
   const session = await requireAdmin();
   if (!session) return { error: "Unauthorized." };
@@ -101,7 +104,7 @@ export async function addChapterAction(
     return { error: "Invalid chapter URL." };
   }
 
-  return AdminService.addChapterLink(comicId, chapterNum, url);
+  return AdminService.addChapterLink(comicId, chapterNum, url, language);
 }
 
 export async function deleteChapterAction(linkId: string) {

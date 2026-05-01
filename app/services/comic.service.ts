@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import type { Language } from "@prisma/client";
 
 /**
  * ComicService — Pure service layer for all comic-related DB operations.
@@ -110,7 +111,8 @@ export class ComicService {
   static async addChapterLink(
     comicId: string,
     chapterNum: string,
-    chapterUrl: string
+    chapterUrl: string,
+    language: Language = "EN"
   ) {
     try {
       // Extract site origin from the chapter URL
@@ -128,13 +130,14 @@ export class ComicService {
           comicId,
           url: siteOrigin,
           siteName,
+          language,
         },
       });
 
-      // Upsert the ChapterLink (duplicate-safe via @@unique([comicId, chapterNum, url]))
+      // Upsert the ChapterLink (duplicate-safe via @@unique([comicId, chapterNum, url, language]))
       const chapterLink = await prisma.chapterLink.upsert({
         where: {
-          comicId_chapterNum_url: { comicId, chapterNum, url: chapterUrl },
+          comicId_chapterNum_url_language: { comicId, chapterNum, url: chapterUrl, language },
         },
         update: {}, // No update needed if it already exists
         create: {
@@ -142,6 +145,7 @@ export class ComicService {
           sourceId: source.id,
           chapterNum,
           url: chapterUrl,
+          language,
         },
       });
 

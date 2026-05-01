@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import { getLanguageLabel, getLanguageFullName } from "@/lib/language";
 import styles from "./ChapterDropdown.module.css";
 
 interface ChapterLink {
   id: string;
   chapterNum: string;
   url: string;
+  language: string;
   source?: { siteName: string | null } | null;
 }
 
@@ -48,6 +50,12 @@ export function ChapterDropdown({ chapterNum, links }: ChapterDropdownProps) {
         <div className={styles.chapterLinksList}>
           {links.map((link) => (
             <div key={link.id} className={styles.chapterLinkRow}>
+              <span
+                className={styles.langBadge}
+                title={getLanguageFullName(link.language)}
+              >
+                {getLanguageLabel(link.language)}
+              </span>
               <span className={styles.chapterSource}>
                 via {link.source?.siteName || "unknown"}
               </span>

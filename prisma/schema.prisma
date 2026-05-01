@@ -108,6 +108,26 @@ enum Genre {
   WEBTOON
 }
 
+enum Language {
+  EN    // English
+  FR    // French
+  JA    // Japanese (Raws)
+  KO    // Korean (Raws)
+  ZH    // Chinese (Raws)
+  ES    // Spanish
+  PT    // Portuguese
+  DE    // German
+  IT    // Italian
+  TH    // Thai
+  VI    // Vietnamese
+  TR    // Turkish
+  ID    // Indonesian
+  AR    // Arabic
+  RU    // Russian
+  PL    // Polish
+  OTHER // Fallback
+}
+
 model Comic {
   id          String            @id @default(cuid())
   title       String            @unique
@@ -131,10 +151,11 @@ model Comic {
 }
 
 model ComicSource {
-  id       String  @id @default(cuid())
+  id       String   @id @default(cuid())
   comicId  String
   url      String
   siteName String?
+  language Language @default(EN)
 
   comic        Comic         @relation(fields: [comicId], references: [id], onDelete: Cascade)
   chapterLinks ChapterLink[]
@@ -144,19 +165,20 @@ model ComicSource {
 }
 
 model ChapterLink {
-  id       String  @id @default(cuid())
+  id       String   @id @default(cuid())
   comicId  String
   sourceId String?
 
   chapterNum String
   url        String
+  language   Language @default(EN)
 
   createdAt DateTime @default(now())
 
   comic  Comic        @relation(fields: [comicId], references: [id], onDelete: Cascade)
   source ComicSource? @relation(fields: [sourceId], references: [id], onDelete: SetNull)
 
-  @@unique([comicId, chapterNum, url])
+  @@unique([comicId, chapterNum, url, language])
   @@map("chapter_link")
 }
 
