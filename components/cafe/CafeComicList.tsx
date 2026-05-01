@@ -42,6 +42,8 @@ function getStatusClass(status: string) {
       return styles.statusHiatus;
     case "CANCELLED":
       return styles.statusCancelled;
+    case "UNKNOWN":
+      return styles.statusUnknown;
     default:
       return "";
   }

@@ -225,7 +225,7 @@ export class ComicService {
       const comic = await prisma.comic.create({
         data: {
           title: data.title,
-          status: (data.status as "ONGOING" | "COMPLETED" | "HIATUS" | "CANCELLED") ?? "ONGOING",
+          status: (data.status as "ONGOING" | "COMPLETED" | "HIATUS" | "CANCELLED" | "UNKNOWN") ?? "UNKNOWN",
           description: data.description ?? null,
           imageUrl: data.imageUrl ?? null,
           approvalStatus: data.isTrusted ? "APPROVED" : "PENDING",

@@ -22,7 +22,7 @@ interface AddComicModalProps {
   onClose: () => void;
 }
 
-const STATUS_OPTIONS = ["ONGOING", "COMPLETED", "HIATUS", "CANCELLED"];
+const STATUS_OPTIONS = ["UNKNOWN", "ONGOING", "COMPLETED", "HIATUS", "CANCELLED"];
 
 export function AddComicModal({ onClose }: AddComicModalProps) {
   const router = useRouter();
@@ -38,7 +38,7 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
   // New comic form state
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [title, setTitle] = useState("");
-  const [status, setStatus] = useState("ONGOING");
+  const [status, setStatus] = useState("UNKNOWN");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [sourceUrl, setSourceUrl] = useState("");

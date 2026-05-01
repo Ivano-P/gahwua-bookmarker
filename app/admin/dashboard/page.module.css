@@ -226,6 +226,11 @@
   color: #666;
 }
 
+.statusUnknown {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #888;
+}
+
 .rowMeta {
   display: flex;
   align-items: center;

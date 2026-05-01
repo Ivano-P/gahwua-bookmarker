@@ -79,12 +79,14 @@ function getStatusClass(status: string) {
       return styles.statusHiatus;
     case "CANCELLED":
       return styles.statusCancelled;
+    case "UNKNOWN":
+      return styles.statusUnknown;
     default:
       return "";
   }
 }
 
-const STATUS_OPTIONS = ["ONGOING", "COMPLETED", "HIATUS", "CANCELLED"];
+const STATUS_OPTIONS = ["UNKNOWN", "ONGOING", "COMPLETED", "HIATUS", "CANCELLED"];
 
 export function AdminComicsList({ comics }: AdminComicsListProps) {
   const router = useRouter();
@@ -109,7 +111,7 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
 
   // Create form state
   const [createTitle, setCreateTitle] = useState("");
-  const [createStatus, setCreateStatus] = useState("ONGOING");
+  const [createStatus, setCreateStatus] = useState("UNKNOWN");
   const [createDescription, setCreateDescription] = useState("");
   const [createImageUrl, setCreateImageUrl] = useState("");
   const [createSourceUrl, setCreateSourceUrl] = useState("");
@@ -147,7 +149,7 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
     }
     setShowCreateModal(false);
     setCreateTitle("");
-    setCreateStatus("ONGOING");
+    setCreateStatus("UNKNOWN");
     setCreateDescription("");
     setCreateImageUrl("");
     setCreateSourceUrl("");

@@ -92,6 +92,7 @@ enum PublicationStatus {
   COMPLETED
   HIATUS
   CANCELLED
+  UNKNOWN
 }
 
 enum Genre {
@@ -142,7 +143,7 @@ model Comic {
   altTitles   String[]
   description String?
   imageUrl    String?
-  status      PublicationStatus @default(ONGOING)
+  status      PublicationStatus @default(UNKNOWN)
   genres      Genre[]
 
   averageRating Float @default(0)

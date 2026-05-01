@@ -239,6 +239,11 @@
   color: #666;
 }
 
+.statusUnknown {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #888;
+}
+
 .comicCardDescription {
   font-size: 0.82rem;
   color: var(--color-dark-navy);
