@@ -34,6 +34,7 @@ export class AdminService {
    */
   static async createComic(data: {
     title: string;
+    altTitles?: string[];
     status?: string;
     description?: string;
     imageUrl?: string;
@@ -44,6 +45,7 @@ export class AdminService {
       const comic = await prisma.comic.create({
         data: {
           title: data.title,
+          altTitles: data.altTitles ?? [],
           status: (data.status as "ONGOING" | "COMPLETED" | "HIATUS" | "CANCELLED" | "UNKNOWN") ?? "UNKNOWN",
           description: data.description ?? null,
           imageUrl: data.imageUrl ?? null,

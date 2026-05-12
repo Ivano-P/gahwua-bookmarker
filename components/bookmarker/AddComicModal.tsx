@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   searchComicsAction,
   addComicFromBookmarkerAction,
+  addAltTitlesAction,
 } from "@/app/actions/comic.actions";
 import { LANGUAGE_OPTIONS } from "@/lib/language";
 import type { Language } from "@prisma/client";
@@ -16,6 +17,7 @@ interface SearchResult {
   title: string;
   imageUrl: string | null;
   status: string;
+  altTitles: string[];
 }
 
 interface AddComicModalProps {
@@ -31,6 +33,7 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searching, setSearching] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   // Selected existing comic
   const [selectedComic, setSelectedComic] = useState<SearchResult | null>(null);
@@ -38,6 +41,7 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
   // New comic form state
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [title, setTitle] = useState("");
+  const [altTitlesInput, setAltTitlesInput] = useState("");
   const [status, setStatus] = useState("UNKNOWN");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -49,6 +53,9 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
   const [chapterUrl, setChapterUrl] = useState("");
   const [chapterLang, setChapterLang] = useState<Language>("EN");
 
+  // Alt title for existing comic
+  const [newAltTitle, setNewAltTitle] = useState("");
+
   // Submit state
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -58,6 +65,7 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
   const performSearch = useCallback(async (query: string) => {
     if (query.trim().length < 2) {
       setSearchResults([]);
+      setHasSearched(false);
       return;
     }
     setSearching(true);
@@ -66,6 +74,7 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
       setSearchResults(result.data);
     }
     setSearching(false);
+    setHasSearched(true);
   }, []);
 
   useEffect(() => {
@@ -98,6 +107,8 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
     setSelectedComic(null);
     setSearchQuery("");
     setSearchResults([]);
+    setHasSearched(false);
+    setNewAltTitle("");
     setError("");
   };
 
@@ -124,6 +135,10 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
         return;
       }
       data.title = title.trim();
+      data.altTitles = altTitlesInput
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
       data.status = status;
       data.description = description.trim() || undefined;
       data.imageUrl = imageUrl.trim() || undefined;
@@ -145,6 +160,11 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
     if ("error" in result) {
       setError(result.error ?? "Something went wrong.");
     } else {
+      // If bookmarking existing comic and user added an alt title, save it
+      if (selectedComic && newAltTitle.trim()) {
+        await addAltTitlesAction(selectedComic.id, [newAltTitle.trim()]);
+      }
+
       setSuccessMessage(
         selectedComic
           ? "Comic bookmarked!"
@@ -207,7 +227,7 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
               <input
                 type="text"
                 className={styles.searchInput}
-                placeholder="Search existing comics..."
+                placeholder="Search existing comics by title..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoFocus
@@ -237,7 +257,15 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
                         <BookOpen size={16} className={styles.resultPlaceholder} />
                       )}
                     </div>
-                    <span className={styles.resultTitle}>{comic.title}</span>
+                    <div className={styles.resultInfo}>
+                      <span className={styles.resultTitle}>{comic.title}</span>
+                      {comic.altTitles && comic.altTitles.length > 0 && (
+                        <span className={styles.resultAltTitles}>
+                          aka: {comic.altTitles.slice(0, 2).join(", ")}
+                          {comic.altTitles.length > 2 && "…"}
+                        </span>
+                      )}
+                    </div>
                     <span className={styles.resultStatus}>
                       {comic.status.toLowerCase()}
                     </span>
@@ -246,41 +274,58 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
               </div>
             )}
 
-            {/* No results / Create new option */}
+            {/* No results hint */}
             {searchQuery.trim().length >= 2 && !searching && searchResults.length === 0 && (
               <p className={styles.searchHint}>
                 No comics found matching &ldquo;{searchQuery}&rdquo;
               </p>
             )}
 
-            <button className={styles.createNewBtn} onClick={handleCreateNew}>
-              <Plus size={15} />
-              Create a new comic{searchQuery.trim() ? `: "${searchQuery.trim()}"` : ""}
-            </button>
+            {/* Create new — only shown after user has searched */}
+            {hasSearched && searchQuery.trim().length >= 2 && (
+              <button className={styles.createNewBtn} onClick={handleCreateNew}>
+                <Plus size={15} />
+                Create a new comic{searchQuery.trim() ? `: "${searchQuery.trim()}"` : ""}
+              </button>
+            )}
           </>
         )}
 
         {/* Selected Existing Comic */}
         {selectedComic && (
-          <div className={styles.selectedComic}>
-            <div className={styles.selectedImage}>
-              {selectedComic.imageUrl ? (
-                <img
-                  src={selectedComic.imageUrl}
-                  alt={selectedComic.title}
-                  className={styles.selectedImg}
-                />
-              ) : (
-                <BookOpen size={24} className={styles.resultPlaceholder} />
-              )}
+          <>
+            <div className={styles.selectedComic}>
+              <div className={styles.selectedImage}>
+                {selectedComic.imageUrl ? (
+                  <img
+                    src={selectedComic.imageUrl}
+                    alt={selectedComic.title}
+                    className={styles.selectedImg}
+                  />
+                ) : (
+                  <BookOpen size={24} className={styles.resultPlaceholder} />
+                )}
+              </div>
+              <div className={styles.selectedInfo}>
+                <span className={styles.selectedTitle}>{selectedComic.title}</span>
+                <span className={styles.selectedStatus}>
+                  {selectedComic.status.toLowerCase()}
+                </span>
+              </div>
             </div>
-            <div className={styles.selectedInfo}>
-              <span className={styles.selectedTitle}>{selectedComic.title}</span>
-              <span className={styles.selectedStatus}>
-                {selectedComic.status.toLowerCase()}
-              </span>
+
+            {/* Alt title contribution for existing comic */}
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Know another name?</label>
+              <input
+                type="text"
+                className={styles.formInput}
+                value={newAltTitle}
+                onChange={(e) => setNewAltTitle(e.target.value)}
+                placeholder="Alternative title (optional)"
+              />
             </div>
-          </div>
+          </>
         )}
 
         {/* Create New Comic Fields */}
@@ -294,6 +339,16 @@ export function AddComicModal({ onClose }: AddComicModalProps) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Comic title"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Alt Titles</label>
+              <input
+                type="text"
+                className={styles.formInput}
+                value={altTitlesInput}
+                onChange={(e) => setAltTitlesInput(e.target.value)}
+                placeholder="Comma-separated alternative names"
               />
             </div>
             <div className={styles.formGroup}>

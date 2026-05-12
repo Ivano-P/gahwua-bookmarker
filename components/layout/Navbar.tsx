@@ -15,7 +15,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, User, LogOut, Coffee, Bookmark, Shield, BookOpen, Users } from "lucide-react";
+import { Menu, X, User, LogOut, Coffee, Bookmark, Shield, BookOpen, Users, Clock } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 export function Navbar() {
@@ -89,6 +89,13 @@ export function Navbar() {
                                     >
                                         <BookOpen className={styles.dropdownIcon} />
                                         Comics
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        className={styles.dropdownItem}
+                                        onClick={() => router.push("/admin/pending")}
+                                    >
+                                        <Clock className={styles.dropdownIcon} />
+                                        Pending
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
                                         className={styles.dropdownItem}
@@ -184,6 +191,9 @@ export function Navbar() {
                                     </div>
                                     <Button asChild variant="ghost" className={`${styles.pageLink} ${styles.mobileAdminLink} ${pathname === '/admin/dashboard' ? styles.activePageLink : ''}`} onClick={closeMenu}>
                                         <Link href="/admin/dashboard"><BookOpen size={14} /> Comics</Link>
+                                    </Button>
+                                    <Button asChild variant="ghost" className={`${styles.pageLink} ${styles.mobileAdminLink} ${pathname === '/admin/pending' ? styles.activePageLink : ''}`} onClick={closeMenu}>
+                                        <Link href="/admin/pending"><Clock size={14} /> Pending</Link>
                                     </Button>
                                     <Button asChild variant="ghost" className={`${styles.pageLink} ${styles.mobileAdminLink} ${pathname === '/admin/users' ? styles.activePageLink : ''}`} onClick={closeMenu}>
                                         <Link href="/admin/users"><Users size={14} /> Users</Link>

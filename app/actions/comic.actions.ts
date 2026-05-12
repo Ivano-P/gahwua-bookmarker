@@ -115,6 +115,7 @@ export async function searchComicsAction(query: string) {
 export async function addComicFromBookmarkerAction(data: {
   existingComicId?: string;
   title?: string;
+  altTitles?: string[];
   status?: string;
   description?: string;
   imageUrl?: string;
@@ -165,6 +166,7 @@ export async function addComicFromBookmarkerAction(data: {
 
   return ComicService.createComicFromUser({
     title: data.title.trim(),
+    altTitles: data.altTitles,
     status: data.status,
     description: data.description,
     imageUrl: data.imageUrl,
@@ -176,4 +178,25 @@ export async function addComicFromBookmarkerAction(data: {
     userId: session.user.id,
     isTrusted: user?.trustedEditor ?? true,
   });
+}
+
+/**
+ * Add alternative titles to a comic.
+ * Any authenticated user can contribute alt titles.
+ */
+export async function addAltTitlesAction(
+  comicId: string,
+  altTitles: string[]
+) {
+  const session = await getAuthSession();
+  if (!session) {
+    return { error: "You must be signed in." };
+  }
+
+  const filtered = altTitles.map((t) => t.trim()).filter(Boolean);
+  if (filtered.length === 0) {
+    return { success: true as const };
+  }
+
+  return ComicService.addAltTitlesToComic(comicId, filtered);
 }

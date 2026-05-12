@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   syncUserBookmarkAction,
   addGlobalChapterLinkAction,
+  addAltTitlesAction,
 } from "@/app/actions/comic.actions";
 import { AddComicModal } from "./AddComicModal";
 import {
@@ -87,6 +88,7 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
   const [editUrl, setEditUrl] = useState("");
   const [saving, setSaving] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editAltTitle, setEditAltTitle] = useState("");
 
   const filtered = bookmarks.filter((b) =>
     b.comic.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -96,12 +98,14 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
     setEditingId(bookmark.id);
     setEditChapter(bookmark.currentChapter);
     setEditUrl("");
+    setEditAltTitle("");
   };
 
   const cancelEdit = () => {
     setEditingId(null);
     setEditChapter("");
     setEditUrl("");
+    setEditAltTitle("");
   };
 
   const saveEdit = async (bookmark: BookmarkData) => {
@@ -122,6 +126,12 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
           editUrl.trim()
         );
       }
+
+      // Add alt title if provided
+      if (editAltTitle.trim()) {
+        await addAltTitlesAction(bookmark.comic.id, [editAltTitle.trim()]);
+      }
+
       router.refresh();
     }
 
@@ -129,6 +139,7 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
     setEditingId(null);
     setEditChapter("");
     setEditUrl("");
+    setEditAltTitle("");
   };
 
   return (
@@ -225,6 +236,7 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
                   </div>
 
                   {isEditing ? (
+                    <>
                     <div className={styles.editRow}>
                       <input
                         type="text"
@@ -257,6 +269,16 @@ export function BookmarkList({ bookmarks, userName }: BookmarkListProps) {
                         <X size={14} />
                       </button>
                     </div>
+                    <div className={styles.editRow} style={{ marginTop: "0.3rem" }}>
+                      <input
+                        type="text"
+                        className={`${styles.editInput} ${styles.editUrlInput}`}
+                        value={editAltTitle}
+                        onChange={(e) => setEditAltTitle(e.target.value)}
+                        placeholder="Alt title (optional)"
+                      />
+                    </div>
+                    </>
                   ) : (
                     <div className={styles.rowMeta}>
                       <span className={styles.chapterBadge}>

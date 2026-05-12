@@ -177,14 +177,31 @@
   opacity: 0.3;
 }
 
-.resultTitle {
+.resultInfo {
   flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.resultTitle {
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--color-midnight-navy);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.resultAltTitles {
+  font-size: 0.68rem;
+  color: var(--color-dark-navy);
+  opacity: 0.45;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-style: italic;
 }
 
 .resultStatus {

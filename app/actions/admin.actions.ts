@@ -29,6 +29,7 @@ export async function getAdminComicsAction() {
 
 export async function createComicAction(data: {
   title: string;
+  altTitles?: string[];
   status?: string;
   description?: string;
   imageUrl?: string;

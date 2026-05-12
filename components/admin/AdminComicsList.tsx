@@ -117,6 +117,7 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
   const [createSourceUrl, setCreateSourceUrl] = useState("");
   const [createSourceLang, setCreateSourceLang] = useState<Language>("EN");
   const [createError, setCreateError] = useState("");
+  const [createAltTitles, setCreateAltTitles] = useState("");
 
   const filtered = comics.filter((c) =>
     c.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -136,6 +137,10 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
     setCreateError("");
     const result = await createComicAction({
       title: createTitle.trim(),
+      altTitles: createAltTitles
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
       status: createStatus,
       description: createDescription.trim() || undefined,
       imageUrl: createImageUrl.trim() || undefined,
@@ -149,6 +154,7 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
     }
     setShowCreateModal(false);
     setCreateTitle("");
+    setCreateAltTitles("");
     setCreateStatus("UNKNOWN");
     setCreateDescription("");
     setCreateImageUrl("");
@@ -551,6 +557,17 @@ export function AdminComicsList({ comics }: AdminComicsListProps) {
                 onChange={(e) => setCreateTitle(e.target.value)}
                 placeholder="Comic title"
                 autoFocus
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Alt Titles</label>
+              <input
+                type="text"
+                className={styles.formInput}
+                value={createAltTitles}
+                onChange={(e) => setCreateAltTitles(e.target.value)}
+                placeholder="Comma-separated alternative names"
               />
             </div>
 

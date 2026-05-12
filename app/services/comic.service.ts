@@ -175,25 +175,34 @@ export class ComicService {
   }
 
   /**
-   * Search comics by title (case-insensitive) for autocomplete.
+   * Search comics by title AND altTitles (case-insensitive) for autocomplete.
    * Only returns APPROVED comics.
    */
   static async searchComicsByTitle(query: string) {
     try {
-      const comics = await prisma.comic.findMany({
-        where: {
-          approvalStatus: "APPROVED",
-          title: { contains: query, mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          title: true,
-          imageUrl: true,
-          status: true,
-        },
-        take: 8,
-        orderBy: { title: "asc" },
-      });
+      const searchPattern = `%${query}%`;
+      const comics = await prisma.$queryRaw<
+        Array<{
+          id: string;
+          title: string;
+          imageUrl: string | null;
+          status: string;
+          altTitles: string[];
+        }>
+      >`
+        SELECT id, title, "imageUrl", status, "altTitles"
+        FROM comic
+        WHERE "approvalStatus" = 'APPROVED'
+        AND (
+          title ILIKE ${searchPattern}
+          OR EXISTS (
+            SELECT 1 FROM unnest("altTitles") AS alt
+            WHERE alt ILIKE ${searchPattern}
+          )
+        )
+        ORDER BY title ASC
+        LIMIT 8
+      `;
       return { success: true as const, data: comics };
     } catch (error) {
       console.error("[ComicService.searchComicsByTitle]", error);
@@ -209,6 +218,7 @@ export class ComicService {
    */
   static async createComicFromUser(data: {
     title: string;
+    altTitles?: string[];
     status?: string;
     description?: string;
     imageUrl?: string;
@@ -225,6 +235,7 @@ export class ComicService {
       const comic = await prisma.comic.create({
         data: {
           title: data.title,
+          altTitles: data.altTitles ?? [],
           status: (data.status as "ONGOING" | "COMPLETED" | "HIATUS" | "CANCELLED" | "UNKNOWN") ?? "UNKNOWN",
           description: data.description ?? null,
           imageUrl: data.imageUrl ?? null,
@@ -283,6 +294,36 @@ export class ComicService {
     } catch (error) {
       console.error("[ComicService.createComicFromUser]", error);
       return { error: "Failed to create comic." };
+    }
+  }
+
+  /**
+   * Add alternative titles to a comic (deduplicates, case-insensitive).
+   */
+  static async addAltTitlesToComic(comicId: string, newAltTitles: string[]) {
+    try {
+      const comic = await prisma.comic.findUnique({
+        where: { id: comicId },
+        select: { altTitles: true },
+      });
+      if (!comic) return { error: "Comic not found." };
+
+      const existing = new Set(comic.altTitles.map((t) => t.toLowerCase()));
+      const toAdd = newAltTitles
+        .map((t) => t.trim())
+        .filter((t) => t && !existing.has(t.toLowerCase()));
+
+      if (toAdd.length === 0) return { success: true as const };
+
+      await prisma.comic.update({
+        where: { id: comicId },
+        data: { altTitles: { push: toAdd } },
+      });
+
+      return { success: true as const };
+    } catch (error) {
+      console.error("[ComicService.addAltTitlesToComic]", error);
+      return { error: "Failed to add alt titles." };
     }
   }
 }
